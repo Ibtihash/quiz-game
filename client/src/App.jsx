@@ -1,6 +1,6 @@
 // filepath: c:\Users\Tashi\OneDrive\Desktop\quiz-game\client\src\App.jsx
 import React from "react";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
@@ -13,30 +13,62 @@ function RequireAuth({ children }) {
 }
 
 function Layout() {
-  return (
-    <div className="app-shell container">
-      <header className="d-flex align-items-center justify-content-between py-3">
-        <div className="d-flex align-items-center gap-3">
-          <div className="logo rounded-3 d-flex align-items-center justify-content-center">Q</div>
-          <div>
-            <div className="h5 mb-0">QuizMaster</div>
-            <div className="text-muted small">Test your knowledge</div>
-          </div>
-        </div>
+  const username = localStorage.getItem("quiz_username");
 
-        <div className="d-flex align-items-center gap-2">
-          <div className="text-muted small me-2">Signed in as {localStorage.getItem("quiz_username") || "Guest"}</div>
+  return (
+    <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
+      {/* ===== Header ===== */}
+      <header className="app-header">
+        <div className="header-container">
+          {/* Left Section */}
+          <div className="header-left">
+            <div className="bg-white text-[var(--accent-green)] w-10 h-10 rounded-lg flex items-center justify-center font-bold">
+              Q
+            </div>
+            <div>
+              <div className="font-semibold text-lg">QuizMaster</div>
+              <div className="text-sm text-[var(--text-light)]/80">
+                Test your knowledge
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section */}
+          <div className="header-right">
+            <span className="text-sm">
+              Signed in as{" "}
+              <span className="font-semibold">
+                {username || "Guest"}
+              </span>
+            </span>
+            {username && (
+              <button
+                onClick={() => {
+                  localStorage.removeItem("quiz_username");
+                  window.location.href = "/login";
+                }}
+                className="px-3 py-1 border border-white rounded-md text-sm hover:bg-white hover:text-[var(--accent-green)] transition"
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
-      <main className="flex-fill">
+      {/* ===== Main Content ===== */}
+      <main className="flex-1 container mx-auto px-4 py-6">
         <Outlet />
       </main>
 
-      <footer className="mt-4 py-3 border-top">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="text-muted small">© 2025 QuizMaster</div>
-          <div className="text-muted small">Home • Leaderboard</div>
+      {/* ===== Footer ===== */}
+      <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
+        <div className="flex justify-between items-center text-[var(--text-muted)] container mx-auto px-4">
+          <div>© 2025 QuizMaster</div>
+          <div className="flex gap-4">
+            <Link to="/" className="hover:underline">Home</Link>
+            <Link to="/leaderboard" className="hover:underline">Leaderboard</Link>
+          </div>
         </div>
       </footer>
     </div>

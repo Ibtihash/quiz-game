@@ -1,4 +1,3 @@
-// filepath: c:\Users\Tashi\OneDrive\Desktop\quiz-game\client\src\pages\QuizPage.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
@@ -36,23 +35,25 @@ export default function QuizPage() {
     setOptions(opts);
     setHintUsed(false);
     setMessage("");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx, questions.length]);
 
   if (loading) return (
-    <div className="d-flex justify-content-center align-items-center" style={{minHeight: "60vh"}}>
-      <div className="spinner-border text-primary" role="status" />
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin border-4 border-[var(--accent-green)] border-t-transparent rounded-full w-10 h-10"></div>
     </div>
   );
 
-  if (!questions.length) return <div className="container py-4"><div className="card p-3">No questions available</div></div>;
+  if (!questions.length) return (
+    <div className="container mx-auto p-6">
+      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow p-4">No questions available</div>
+    </div>
+  );
 
   const q = questions[idx];
 
   const useHint = () => {
     if (hintUsed) return;
     setHintUsed(true);
-    // Reveal first letter and remove one wrong option if present
     const first = q.correct_answer?.trim().charAt(0) || "";
     const incorrect = (q.incorrect_answers || []).slice();
     if (incorrect.length > 0) incorrect.splice(Math.floor(Math.random()*incorrect.length), 1);
@@ -79,49 +80,48 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="container py-4">
-      <div className="question-card card p-3">
-        <div>
-          <div className="d-flex justify-content-between mb-2">
-            <div>
-              <small className="text-muted">Question {idx+1} / {questions.length}</small>
-              <h5 className="mt-1" dangerouslySetInnerHTML={{ __html: q.question }} />
-            </div>
-            <div className="text-end">
-              <div className="text-muted small">Score</div>
-              <div className="h4 mb-0">{score}</div>
-            </div>
+    <div className="container mx-auto p-6">
+      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow p-6">
+        <div className="flex justify-between mb-4">
+          <div>
+            <p className="text-sm text-[var(--text-muted)]">Question {idx+1} / {questions.length}</p>
+            <h5 className="font-semibold mt-1" dangerouslySetInnerHTML={{ __html: q.question }} />
           </div>
-
-          {message && <div className="alert alert-info py-2 small">{message}</div>}
-
-          <div className="row g-2">
-            {options.map((o) => (
-              <div className="col-md-6" key={o}>
-                <button
-                  className="option-btn btn btn-light w-100 text-start"
-                  onClick={() => choose(o)}
-                  dangerouslySetInnerHTML={{ __html: o }}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="d-flex justify-content-between align-items-center mt-3">
-            <div>
-              <button className="btn btn-outline-primary me-2" onClick={useHint} disabled={hintUsed}>Use hint</button>
-              <button className="btn btn-outline-secondary" onClick={() => { localStorage.removeItem("quiz_username"); nav("/signup"); }}>Logout</button>
-            </div>
-            <div>
-              <button className="btn btn-outline-secondary me-2" onClick={() => nav("/")}>Back</button>
-              <button className="btn btn-primary" onClick={finish}>Finish & Submit</button>
-            </div>
+          <div className="text-right">
+            <p className="text-sm text-[var(--text-muted)]">Score</p>
+            <div className="text-2xl font-bold text-[var(--accent-green)]">{score}</div>
           </div>
         </div>
 
-        <aside className="mt-3">
-          <div className="text-muted small">Category: <strong>{q.category || "General"}</strong></div>
-        </aside>
+        {message && <div className="bg-blue-50 text-blue-700 px-3 py-2 rounded-md text-sm mb-3">{message}</div>}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {options.map((o) => (
+            <button
+              key={o}
+              className="w-full px-4 py-2 border border-[var(--border-color)] rounded-lg text-left hover:bg-green-50 transition"
+              onClick={() => choose(o)}
+              dangerouslySetInnerHTML={{ __html: o }}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-between items-center mt-4">
+          <div className="flex gap-2">
+            <button className="px-3 py-2 border rounded-lg text-sm border-[var(--accent-green)] text-[var(--accent-green)] hover:bg-green-50" onClick={useHint} disabled={hintUsed}>
+              Use hint
+            </button>
+            <button className="px-3 py-2 border rounded-lg text-sm border-red-500 text-red-500 hover:bg-red-50" onClick={() => { localStorage.removeItem("quiz_username"); nav("/signup"); }}>
+              Logout
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button className="px-3 py-2 border rounded-lg text-sm text-[var(--text-muted)] hover:bg-gray-50" onClick={() => nav("/")}>Back</button>
+            <button className="px-3 py-2 bg-[var(--accent-green)] text-white rounded-lg text-sm hover:bg-green-700" onClick={finish}>Finish & Submit</button>
+          </div>
+        </div>
+
+        <p className="text-xs text-[var(--text-muted)] mt-4">Category: <strong>{q.category || "General"}</strong></p>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-// filepath: c:\Users\Tashi\OneDrive\Desktop\quiz-game\client\src\pages\LoginPage.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
@@ -36,74 +35,80 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "72vh", padding: "24px" }}>
-      <div className="form-card p-4 w-100" style={{ maxWidth: 520 }}>
-        <div className="d-flex align-items-center mb-3">
-          <div className="logo rounded-3 d-flex align-items-center justify-content-center me-3" style={{ width: 56, height: 56 }}>
+    <div className="flex items-center justify-center min-h-screen bg-[var(--page-bg)] px-4">
+      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md">
+        <div className="flex items-center mb-4">
+          <div className="bg-[var(--accent-green)] text-white rounded-lg w-12 h-12 flex items-center justify-center text-xl font-bold mr-3">
             Q
           </div>
           <div>
-            <h4 className="mb-0">Welcome back</h4>
-            <div className="text-muted small">Sign in to continue to QuizMaster</div>
+            <h3 className="text-lg font-semibold">Welcome back</h3>
+            <p className="text-sm text-[var(--text-muted)]">Sign in to continue</p>
           </div>
         </div>
 
         <form onSubmit={submit} aria-describedby="loginError" noValidate>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label small text-muted">Username</label>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-sm text-[var(--text-muted)] mb-1">
+              Username
+            </label>
             <input
               id="username"
-              className="form-control form-control-lg"
+              className="w-full border border-[var(--border-color)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
               autoFocus
-              aria-required="true"
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label small text-muted">Password</label>
-            <div className="input-group">
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm text-[var(--text-muted)] mb-1">
+              Password
+            </label>
+            <div className="flex">
               <input
                 id="password"
                 type={showPwd ? "text" : "password"}
-                className="form-control form-control-lg"
+                className="flex-1 border border-[var(--border-color)] rounded-l-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                aria-required="true"
               />
               <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="border border-l-0 border-[var(--border-color)] px-3 rounded-r-lg text-sm text-[var(--text-muted)] hover:bg-gray-50"
                 onClick={() => setShowPwd((s) => !s)}
-                aria-label={showPwd ? "Hide password" : "Show password"}
               >
                 {showPwd ? "Hide" : "Show"}
               </button>
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" id="rememberMe" />
-              <label className="form-check-label small text-muted" htmlFor="rememberMe">Remember me</label>
-            </div>
-            <Link to="#" className="small text-muted">Forgot password?</Link>
+          <div className="flex items-center justify-between mb-4 text-sm">
+            <label className="flex items-center gap-2 text-[var(--text-muted)]">
+              <input type="checkbox" className="rounded border-gray-300" /> Remember me
+            </label>
+            <Link to="#" className="text-[var(--accent-green)] hover:underline">
+              Forgot password?
+            </Link>
           </div>
 
-          <div className="d-flex justify-content-end gap-2">
-            <Link to="/signup" className="btn btn-outline-secondary">Sign up</Link>
-            <button className="btn btn-primary d-flex align-items-center" type="submit" disabled={loading}>
-              {loading && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />}
+          <div className="flex justify-end gap-2">
+            <Link to="/signup" className="px-4 py-2 border rounded-lg text-sm text-[var(--accent-green)] border-[var(--accent-green)] hover:bg-green-50">
+              Sign up
+            </Link>
+            <button
+              className="px-4 py-2 bg-[var(--accent-green)] text-white rounded-lg text-sm hover:bg-green-700 flex items-center"
+              type="submit"
+              disabled={loading}
+            >
+              {loading && <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-2"></span>}
               Login
             </button>
           </div>
 
-          <div id="loginError" role="status" aria-live="polite" className="mt-3" style={{ minHeight: 22 }}>
-            {err && <div className="text-danger small">{err}</div>}
-          </div>
+          {err && <div id="loginError" className="mt-3 text-sm text-red-600">{err}</div>}
         </form>
       </div>
     </div>

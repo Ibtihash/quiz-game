@@ -39,97 +39,93 @@ export default function LeaderboardPage() {
   const filtered = list.filter((l) => normalized(l.username).includes(normalized(query)));
 
   return (
-    <div className="container py-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className="mb-0">Leaderboard</h4>
-        <Link to="/" className="btn btn-primary btn-sm">Home</Link>
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-xl font-semibold">Leaderboard</h4>
+        <Link to="/" className="dashboard-btn">Home</Link>
       </div>
 
-      <div className="leaderboard card p-3">
-        <div className="leaderboard-header">
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="title">Top Players</div>
-            <div className="sub">Sorted by highest score — latest entries first</div>
+            <div className="font-medium">Top Players</div>
+            <div className="text-sm text-gray-500">Sorted by highest score — latest entries first</div>
           </div>
 
-          <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <div className="text-muted small">Updated: {new Date().toLocaleString()}</div>
-            <div className="leaderboard-filter" style={{minWidth:240}}>
-              <div className="input-group">
-                <input
-                  type="search"
-                  className="form-control"
-                  placeholder="Filter by username"
-                  aria-label="Filter by username"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-                {query ? (
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary"
-                    onClick={() => setQuery("")}
-                    aria-label="Clear filter"
-                  >
-                    Clear
-                  </button>
-                ) : null}
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="text-xs text-gray-400">Updated: {new Date().toLocaleString()}</div>
+            <div className="flex border rounded overflow-hidden">
+              <input
+                type="search"
+                className="px-3 py-2 text-sm outline-none"
+                placeholder="Filter by username"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              {query && (
+                <button
+                  type="button"
+                  className="px-3 py-2 text-sm text-red-500 hover:bg-red-50"
+                  onClick={() => setQuery("")}
+                >
+                  Clear
+                </button>
+              )}
             </div>
           </div>
         </div>
 
         {loading ? (
-          <div className="d-flex justify-content-center py-4">
-            <div className="spinner-border text-primary" role="status" aria-hidden="true" />
+          <div className="flex justify-center py-6">
+            <div className="animate-spin border-4 border-green-500 border-t-transparent rounded-full w-8 h-8" />
           </div>
         ) : (
           <>
-            <div className="table-responsive mt-3">
-              <table className="table leaderboard-table mb-0">
+            <div className="overflow-x-auto mt-4">
+              <table className="w-full text-sm border-collapse">
                 <thead>
-                  <tr>
-                    <th style={{width: "6%"}}>Sr No.</th>
-                    <th style={{width: "48%"}}>Name</th>
-                    <th style={{width: "23%"}}>Date</th>
-                    <th style={{width: "23%"}}>Time</th>
+                  <tr className="bg-gray-50">
+                    <th className="px-3 py-2 text-left w-[6%]">Sr No.</th>
+                    <th className="px-3 py-2 text-left w-[48%]">Name</th>
+                    <th className="px-3 py-2 text-left w-[23%]">Date</th>
+                    <th className="px-3 py-2 text-left w-[23%]">Time</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filtered.length ? (
                     filtered.map((l, i) => {
-                      const rank = list.indexOf(l) + 1; // show global rank
+                      const rank = list.indexOf(l) + 1;
                       const name = l.username || "Anonymous";
                       const dateObj = l.date ? new Date(l.date) : null;
                       const dateOnly = dateObj ? dateObj.toLocaleDateString() : "—";
                       const timeOnly = dateObj ? dateObj.toLocaleTimeString() : "—";
                       return (
-                        <tr key={l._id || `${name}-${i}`} className="leaderboard-row">
-                          <td className="align-middle">{rank}</td>
-
-                          <td className="align-middle">
-                            <div className="d-flex align-items-center gap-3">
-                              <div className="leaderboard-avatar-sm" aria-hidden="true">{initials(name)}</div>
+                        <tr key={l._id || `${name}-${i}`} className="border-t">
+                          <td className="px-3 py-2">{rank}</td>
+                          <td className="px-3 py-2">
+                            <div className="flex items-center gap-3">
+                              <div className="bg-green-100 text-green-600 font-bold rounded-full w-8 h-8 flex items-center justify-center">
+                                {initials(name)}
+                              </div>
                               <div>
-                                <div className="fw-bold">
+                                <div className="font-semibold">
                                   {name}
-                                  {rank === 1 && <span className="ms-2 medal gold" title="Gold">★</span>}
-                                  {rank === 2 && <span className="ms-2 medal silver" title="Silver">★</span>}
-                                  {rank === 3 && <span className="ms-2 medal bronze" title="Bronze">★</span>}
+                                  {rank === 1 && <span className="ml-2 text-yellow-500">★</span>}
+                                  {rank === 2 && <span className="ml-2 text-gray-400">★</span>}
+                                  {rank === 3 && <span className="ml-2 text-orange-500">★</span>}
                                 </div>
-                                <div className="small text-muted">Score: <strong>{l.score}</strong></div>
+                                <div className="text-xs text-gray-500">Score: <strong>{l.score}</strong></div>
                               </div>
                             </div>
                           </td>
-
-                          <td className="align-middle">{dateOnly}</td>
-                          <td className="align-middle">{timeOnly}</td>
+                          <td className="px-3 py-2">{dateOnly}</td>
+                          <td className="px-3 py-2">{timeOnly}</td>
                         </tr>
                       );
                     })
                   ) : (
                     <tr>
-                      <td colSpan={4} className="text-center text-muted py-4">
+                      <td colSpan={4} className="text-center text-gray-500 py-6">
                         {query ? `No scores found for "${query}"` : "No scores yet — be the first!"}
                       </td>
                     </tr>
@@ -138,11 +134,9 @@ export default function LeaderboardPage() {
               </table>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center mt-3">
-              <div className="small text-muted">{filtered.length} result(s)</div>
-              <div>
-                <Link to="/quiz" className="btn btn-outline-primary btn-sm">Play & Submit Score</Link>
-              </div>
+            <div className="flex items-center justify-between mt-4">
+              <div className="text-xs text-gray-500">{filtered.length} result(s)</div>
+              <Link to="/quiz" className="dashboard-btn">Play & Submit Score</Link>
             </div>
           </>
         )}
