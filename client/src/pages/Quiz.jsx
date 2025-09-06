@@ -8,6 +8,39 @@ export default function Quiz() {
   const [showHint, setShowHint] = useState(false);
   const [finished, setFinished] = useState(false);
 
+  useEffect(() => {
+    console.log('finished state changed:', finished); // Added logging
+    if (finished) {
+      let username = localStorage.getItem('quiz_username');
+      if (!username || username.trim() === '') {
+        username = "Guest";
+      }
+
+      const scoreData = {
+        username,
+        score,
+        total: questions.length,
+      };
+
+      console.log('Sending quiz score data:', scoreData); // Added logging
+
+      fetch('http://localhost:4000/api/quiz-scores', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(scoreData),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Quiz score saved:', data);
+        })
+        .catch(error => {
+          console.error('Error saving quiz score:', error);
+        });
+    }
+  }, [finished, score, questions.length]);
+
   const fetchQuestions = () => {
     setLoading(true);
 

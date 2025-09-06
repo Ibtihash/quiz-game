@@ -1,31 +1,42 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); // ✅ using email instead of username
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const nav = useNavigate();
+  const location = useLocation();
+
+  // Show success message if redirected from VerifyEmailPage
+  React.useEffect(() => {
+    if (location.state?.message) {
+      setErr(location.state.message);
+    }
+  }, [location.state]);
 
   const submit = async (e) => {
     e.preventDefault();
     setErr("");
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/questions/login`, {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
-        localStorage.setItem("quiz_username", data.username || username);
+        localStorage.setItem("quiz_username", data.user?.username || email);
         nav("/");
       } else {
-        setErr(data.error || `Login failed (${res.status})`);
+        setErr(data.message || `Login failed (${res.status})`);
       }
     } catch {
       setErr("Network error");
@@ -43,27 +54,36 @@ export default function LoginPage() {
           </div>
           <div>
             <h3 className="text-lg font-semibold">Welcome back</h3>
-            <p className="text-sm text-[var(--text-muted)]">Sign in to continue</p>
+            <p className="text-sm text-[var(--text-muted)]">
+              Sign in to continue
+            </p>
           </div>
         </div>
 
         <form onSubmit={submit} aria-describedby="loginError" noValidate>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm text-[var(--text-muted)] mb-1">
-              Username
+            <label
+              htmlFor="email"
+              className="block text-sm text-[var(--text-muted)] mb-1"
+            >
+              Email
             </label>
             <input
-              id="username"
+              id="email"
+              type="email"
               className="w-full border border-[var(--border-color)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               autoFocus
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm text-[var(--text-muted)] mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm text-[var(--text-muted)] mb-1"
+            >
               Password
             </label>
             <div className="flex">
@@ -87,15 +107,25 @@ export default function LoginPage() {
 
           <div className="flex items-center justify-between mb-4 text-sm">
             <label className="flex items-center gap-2 text-[var(--text-muted)]">
-              <input type="checkbox" className="rounded border-gray-300" /> Remember me
+              <input
+                type="checkbox"
+                className="rounded border-gray-300"
+              />{" "}
+              Remember me
             </label>
-            <Link to="#" className="text-[var(--accent-green)] hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-[var(--accent-green)] hover:underline"
+            >
               Forgot password?
             </Link>
           </div>
 
           <div className="flex justify-end gap-2">
-            <Link to="/signup" className="px-4 py-2 border rounded-lg text-sm text-[var(--accent-green)] border-[var(--accent-green)] hover:bg-green-50">
+            <Link
+              to="/signup"
+              className="px-4 py-2 border rounded-lg text-sm text-[var(--accent-green)] border-[var(--accent-green)] hover:bg-green-50"
+            >
               Sign up
             </Link>
             <button
@@ -103,12 +133,18 @@ export default function LoginPage() {
               type="submit"
               disabled={loading}
             >
-              {loading && <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-2"></span>}
+              {loading && (
+                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-2"></span>
+              )}
               Login
             </button>
           </div>
 
-          {err && <div id="loginError" className="mt-3 text-sm text-red-600">{err}</div>}
+          {err && (
+            <div id="loginError" className="mt-3 text-sm text-red-600">
+              {err}
+            </div>
+          )}
         </form>
       </div>
     </div>

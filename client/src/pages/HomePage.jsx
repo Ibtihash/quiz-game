@@ -1,48 +1,32 @@
-// filepath: c:\Users\Tashi\OneDrive\Desktop\quiz-game\client\src\pages\HomePage.jsx
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
-  const nav = useNavigate();
-  const username = localStorage.getItem("quiz_username") || "Guest";
+  const username = localStorage.getItem("quiz_username");
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-     
-
-      {/* DASHBOARD GRID */}
-      <div className="dashboard-grid">
-        <div className="dashboard-card">
-          <div>
-            <h5 className="dashboard-title">Play a Quiz</h5>
-            <p className="dashboard-text">10 random questions. Time yourself and compete.</p>
-          </div>
-          <button className="dashboard-btn" onClick={() => nav("/quiz")}>Start</button>
-        </div>
-
-        <div className="dashboard-card">
-          <div>
-            <h5 className="dashboard-title">Leaderboard</h5>
-            <p className="dashboard-text">See top players worldwide.</p>
-          </div>
-          <button className="dashboard-btn" onClick={() => nav("/leaderboard")}>View</button>
-        </div>
-
-        <div className="dashboard-card">
-          <div>
-            <h5 className="dashboard-title">Profile</h5>
-            <p className="dashboard-text">Manage account and preferences.</p>
-          </div>
-          <button className="dashboard-btn opacity-50 cursor-not-allowed" disabled>Open</button>
-        </div>
-      </div>
-
-      {/* INFO CARD */}
-      <div className="info-card">
-        <h6 className="info-title">How it works</h6>
-        <p className="info-text">
-          Use hints to reveal clues (limited per question). Your score is submitted to the leaderboard at the end.
-        </p>
+    <div className="text-center p-8">
+      <h1 className="text-4xl font-bold mb-4">Welcome, {username}!</h1>
+      <p className="text-xl text-[var(--text-muted)] mb-10">
+        What would you like to do today?
+      </p>
+      <div className="flex justify-center items-center gap-6 flex-wrap">
+        <Link
+          to="/quiz"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 text-center"
+        >
+          <span className="text-5xl mb-4">🧠</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)]">Take a Quiz</h2>
+          <p className="text-sm text-[var(--text-muted)]">Test your knowledge</p>
+        </Link>
+        <Link
+          to="/wordle"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 text-center"
+        >
+          <span className="text-5xl mb-4">📝</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)]">Play Wordle</h2>
+          <p className="text-sm text-[var(--text-muted)]">Guess the secret word</p>
+        </Link>
       </div>
     </div>
   );

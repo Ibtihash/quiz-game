@@ -1,11 +1,14 @@
-// filepath: c:\Users\Tashi\OneDrive\Desktop\quiz-game\client\src\App.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
+import WordlePage from "./pages/WordlePage";
 
 function RequireAuth({ children }) {
   const username = localStorage.getItem("quiz_username");
@@ -14,14 +17,13 @@ function RequireAuth({ children }) {
 
 function Layout() {
   const username = localStorage.getItem("quiz_username");
+  const [gamesOpen, setGamesOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
-      {/* ===== Header ===== */}
       <header className="app-header">
-        <div className="header-container">
-          {/* Left Section */}
-          <div className="header-left">
+        <div className="header-container flex justify-between items-center px-6 py-4 bg-[var(--accent-green)] text-white relative">
+          <div className="flex items-center gap-3">
             <div className="bg-white text-[var(--accent-green)] w-10 h-10 rounded-lg flex items-center justify-center font-bold">
               Q
             </div>
@@ -33,13 +35,57 @@ function Layout() {
             </div>
           </div>
 
-          {/* Right Section */}
-          <div className="header-right">
+          <nav className="hidden md:flex items-center gap-6 relative">
+            <Link to="/" className="font-medium text-white/90 hover:text-white">
+              Home
+            </Link>
+
+            {/* Dropdown Menu for Games */}
+            <div className="relative">
+              <button
+                onClick={() => setGamesOpen(!gamesOpen)}
+                className="font-medium text-white/90 hover:text-white"
+              >
+                Games ▾
+              </button>
+
+              {gamesOpen && (
+                <div className="absolute mt-2 w-40 rounded-lg bg-gray-800 shadow-lg z-50">
+                  <div className="px-3 py-2 text-gray-300 font-semibold border-b border-gray-700">
+                    Games
+                  </div>
+                  <div className="flex flex-col p-2 space-y-2">
+                    <Link
+                      to="/wordle"
+                      className="font-medium text-white/90 hover:text-white"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      Wordle
+                    </Link>
+                    <Link
+                      to="/quiz"
+                      className="font-medium text-white/90 hover:text-white"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      Quiz
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <Link
+              to="/leaderboard"
+              className="font-medium text-white/90 hover:text-white"
+            >
+              Leaderboard
+            </Link>
+          </nav>
+
+          <div className="flex items-center gap-4">
             <span className="text-sm">
               Signed in as{" "}
-              <span className="font-semibold">
-                {username || "Guest"}
-              </span>
+              <span className="font-semibold">{username}</span>
             </span>
             {username && (
               <button
@@ -56,18 +102,26 @@ function Layout() {
         </div>
       </header>
 
-      {/* ===== Main Content ===== */}
       <main className="flex-1 container mx-auto px-4 py-6">
         <Outlet />
       </main>
 
-      {/* ===== Footer ===== */}
       <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
         <div className="flex justify-between items-center text-[var(--text-muted)] container mx-auto px-4">
           <div>© 2025 QuizMaster</div>
           <div className="flex gap-4">
-            <Link to="/" className="hover:underline">Home</Link>
-            <Link to="/leaderboard" className="hover:underline">Leaderboard</Link>
+            <Link to="/" className="hover:underline">
+              Home
+            </Link>
+            <Link to="/leaderboard" className="hover:underline">
+              Leaderboard
+            </Link>
+            <Link to="/wordle" className="hover:underline">
+              Wordle
+            </Link>
+            <Link to="/quiz" className="hover:underline">
+              Quiz
+            </Link>
           </div>
         </div>
       </footer>
@@ -89,11 +143,22 @@ export default function App() {
         />
         <Route path="signup" element={<SignupPage />} />
         <Route path="login" element={<LoginPage />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="reset-password/:token" element={<ResetPasswordPage />} />
+        <Route path="verify" element={<VerifyEmailPage />} />
         <Route
           path="quiz"
           element={
             <RequireAuth>
               <QuizPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="wordle"
+          element={
+            <RequireAuth>
+              <WordlePage />
             </RequireAuth>
           }
         />
