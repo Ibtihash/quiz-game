@@ -9,6 +9,8 @@ import QuizPage from "./pages/QuizPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import WordlePage from "./pages/WordlePage";
+import CrosswordPage from "./pages/CrosswordPage";
+import SnakeGamePage from "./pages/SnakeGamePage";
 
 function RequireAuth({ children }) {
   const username = localStorage.getItem("quiz_username");
@@ -70,6 +72,20 @@ function Layout() {
                       onClick={() => setGamesOpen(false)}
                     >
                       📝 Take a Quiz
+                    </Link>
+                    <Link
+                      to="/crossword"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      ➕ Crossword
+                    </Link>
+                    <Link
+                      to="/snake-game"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      🐍 Play Snake
                     </Link>
                   </div>
                 </div>
@@ -151,6 +167,22 @@ export default function App() {
           element={
             <RequireAuth>
               <WordlePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="crossword"
+          element={
+            <RequireAuth>
+              <CrosswordPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="snake-game"
+          element={
+            <RequireAuth>
+              <SnakeGamePage />
             </RequireAuth>
           }
         />

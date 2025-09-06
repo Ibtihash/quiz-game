@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import API from "../api";
 
 function initials(name = "") {
   return name
@@ -15,18 +15,22 @@ export default function LeaderboardPage() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("quiz"); // "quiz" or "wordle"
+  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", or "snake"
 
   const fetchLeaderboard = async () => {
     setLoading(true);
     try {
-      const url =
-        mode === "quiz"
-          ? `${API_BASE}/api/quiz-scores/top`
-          : `${API_BASE}/api/wordle-scores/top`;
+      let data;
+      if (mode === "quiz") {
+        data = await API.getTopQuizScores();
+      } else if (mode === "wordle") {
+        data = await API.getTopWordleScores();
+      } else if (mode === "crossword") {
+        data = await API.getTopCrosswordScores();
+      } else if (mode === "snake") {
+        data = await API.getTopSnakeScores();
+      }
 
-      const res = await fetch(url);
-      const data = await res.json().catch(() => []);
       const sorted = (data || [])
         .slice()
         .sort((a, b) => b.score - a.score || new Date(a.createdAt) - new Date(b.createdAt));
@@ -46,6 +50,28 @@ export default function LeaderboardPage() {
   const filtered = list.filter((l) =>
     normalized(l.username).includes(normalized(query))
   );
+
+  const getModeTitle = () => {
+    if (mode === "quiz") return "Top Quiz Players";
+    if (mode === "wordle") return "Top Wordle Players";
+    if (mode === "crossword") return "Top Crossword Players";
+    if (mode === "snake") return "Top Snake Players";
+    return "Top Players";
+  };
+
+  const getColumnHeader = () => {
+    if (mode === "quiz") return "Accuracy";
+    if (mode === "wordle") return "Guesses Taken";
+    if (mode === "crossword") return "Time Taken";
+    return null;
+  };
+
+  const getColumnValue = (item) => {
+    if (mode === "quiz") return `${item.accuracy}%`;
+    if (mode === "wordle") return item.guessesTaken;
+    if (mode === "crossword") return `${item.timeTaken}s`;
+    return null;
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
@@ -72,14 +98,28 @@ export default function LeaderboardPage() {
         >
           Wordle Scores
         </button>
+        <button
+          onClick={() => setMode("crossword")}
+          className={`px-4 py-2 rounded ${
+            mode === "crossword" ? "bg-green-600 text-white" : "bg-gray-200"
+          }`}
+        >
+          Crossword Scores
+        </button>
+        <button
+          onClick={() => setMode("snake")}
+          className={`px-4 py-2 rounded ${
+            mode === "snake" ? "bg-green-600 text-white" : "bg-gray-200"
+          }`}
+        >
+          Snake Scores
+        </button>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="font-medium">
-              {mode === "quiz" ? "Top Quiz Players" : "Top Wordle Players"}
-            </div>
+            <div className="font-medium">{getModeTitle()}</div>
             <div className="text-sm text-gray-500">
               Sorted by highest score — latest entries first
             </div>
@@ -122,9 +162,11 @@ export default function LeaderboardPage() {
                   <tr className="bg-gray-50">
                     <th className="px-3 py-2 text-left w-[6%]">Sr No.</th>
                     <th className="px-3 py-2 text-left w-[40%]">Name</th>
-                    <th className="px-3 py-2 text-left w-[18%]">
-                      {mode === "quiz" ? "Accuracy" : "Guesses Taken"}
-                    </th>
+                    {getColumnHeader() && (
+                      <th className="px-3 py-2 text-left w-[18%]">
+                        {getColumnHeader()}
+                      </th>
+                    )}
                     <th className="px-3 py-2 text-left w-[18%]">Score</th>
                     <th className="px-3 py-2 text-left w-[18%]">Date</th>
                   </tr>
@@ -160,11 +202,9 @@ export default function LeaderboardPage() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-3 py-2">
-                            {mode === "quiz"
-                              ? `${l.accuracy}%`
-                              : l.guessesTaken}
-                          </td>
+                          {getColumnValue(l) && (
+                            <td className="px-3 py-2">{getColumnValue(l)}</td>
+                          )}
                           <td className="px-3 py-2">{l.score}</td>
                           <td className="px-3 py-2">{dateOnly}</td>
                         </tr>
@@ -188,7 +228,7 @@ export default function LeaderboardPage() {
                 {filtered.length} result(s)
               </div>
               <Link
-                to={mode === "quiz" ? "/quiz" : "/wordle"}
+                to={mode === "quiz" ? "/quiz" : (mode === "wordle" ? "/wordle" : (mode === "crossword" ? "/crossword" : "/snake-game"))}
                 className="dashboard-btn"
               >
                 Play & Submit Score

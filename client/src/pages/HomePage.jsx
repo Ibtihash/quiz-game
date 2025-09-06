@@ -34,6 +34,30 @@ export default function HomePage() {
           </h2>
           <p className="text-sm text-[var(--text-muted)]">Guess the secret word</p>
         </Link>
+
+        {/* Crossword Card */}
+        <Link
+          to="/crossword"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-purple-50"
+        >
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🧩</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-purple-600">
+            Crossword Puzzle
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">Solve the puzzle</p>
+        </Link>
+
+        {/* Snake Game Card */}
+        <Link
+          to="/snake-game"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-red-50"
+        >
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🐍</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-red-600">
+            Play Snake
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">Eat the fruit</p>
+        </Link>
       </div>
     </div>
   );

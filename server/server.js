@@ -11,6 +11,8 @@ import authRoutes from './routes/auth.js';
 import questionsRoute from './routes/questions.js';
 import wordleScoresRoute from './routes/wordleScores.js';
 import quizScoresRoute from './routes/quizScores.js';
+import crosswordScoresRoute from './routes/crosswordScores.js';
+import snakeScoresRoute from './routes/snakeScores.js';
 
 // ...
 
@@ -28,6 +30,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionsRoute);
 app.use('/api/wordle-scores', wordleScoresRoute);
 app.use('/api/quiz-scores', quizScoresRoute);
+app.use('/api/crossword-scores', crosswordScoresRoute);
+app.use('/api/snake-scores', snakeScoresRoute);
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/quiz-game';

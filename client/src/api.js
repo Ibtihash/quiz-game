@@ -1,19 +1,58 @@
 const API = {
-async getQuestions(params = {}){
-const q = new URLSearchParams(params).toString();
-const res = await fetch(`/api/questions?${q}`)
-if(!res.ok) throw new Error('Failed to load questions')
-return res.json()
-},
-async postScore(payload){
-const res = await fetch('/api/scores', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-if(!res.ok) throw new Error('Failed to submit score')
-return res.json()
-},
-async getTop(limit=20){
-const res = await fetch(`/api/scores/top?limit=${limit}`)
-if(!res.ok) throw new Error('Failed to load leaderboard')
-return res.json()
-}
-}
-export default API
+  async getQuestions(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    const res = await fetch(`/api/questions?${q}`);
+    if (!res.ok) throw new Error('Failed to load questions');
+    return res.json();
+  },
+
+  // Quiz Scores
+  async postQuizScore(payload) {
+    const res = await fetch('/api/quiz-scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit quiz score');
+    return res.json();
+  },
+  async getTopQuizScores(limit = 20) {
+    const res = await fetch(`/api/quiz-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load quiz leaderboard');
+    return res.json();
+  },
+
+  // Wordle Scores
+  async postWordleScore(payload) {
+    const res = await fetch('/api/wordle-scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit wordle score');
+    return res.json();
+  },
+  async getTopWordleScores(limit = 20) {
+    const res = await fetch(`/api/wordle-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load wordle leaderboard');
+    return res.json();
+  },
+
+  // Crossword Scores
+  async postCrosswordScore(payload) {
+    const res = await fetch('/api/crossword-scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit crossword score');
+    return res.json();
+  },
+  async getTopCrosswordScores(limit = 20) {
+    const res = await fetch(`/api/crossword-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load crossword leaderboard');
+    return res.json();
+  },
+
+  // Snake Scores
+  async postSnakeScore(payload) {
+    const res = await fetch('/api/snake-scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit snake score');
+    return res.json();
+  },
+  async getTopSnakeScores(limit = 20) {
+    const res = await fetch(`/api/snake-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load snake leaderboard');
+    return res.json();
+  },
+};
+
+export default API;
