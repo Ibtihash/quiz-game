@@ -11,20 +11,27 @@ export default function HomePage() {
         What would you like to do today?
       </p>
       <div className="flex justify-center items-center gap-6 flex-wrap">
+        {/* Quiz Card */}
         <Link
           to="/quiz"
-          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 text-center"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-blue-50"
         >
-          <span className="text-5xl mb-4">🧠</span>
-          <h2 className="text-xl font-semibold text-[var(--text-dark)]">Take a Quiz</h2>
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🧠</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-blue-600">
+            Take a Quiz
+          </h2>
           <p className="text-sm text-[var(--text-muted)]">Test your knowledge</p>
         </Link>
+
+        {/* Wordle Card */}
         <Link
           to="/wordle"
-          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 text-center"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-green-50"
         >
-          <span className="text-5xl mb-4">📝</span>
-          <h2 className="text-xl font-semibold text-[var(--text-dark)]">Play Wordle</h2>
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">📝</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-green-600">
+            Play Wordle
+          </h2>
           <p className="text-sm text-[var(--text-muted)]">Guess the secret word</p>
         </Link>
       </div>

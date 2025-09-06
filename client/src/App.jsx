@@ -23,6 +23,7 @@ function Layout() {
     <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
       <header className="app-header">
         <div className="header-container flex justify-between items-center px-6 py-4 bg-[var(--accent-green)] text-white relative">
+          {/* Logo Section */}
           <div className="flex items-center gap-3">
             <div className="bg-white text-[var(--accent-green)] w-10 h-10 rounded-lg flex items-center justify-center font-bold">
               Q
@@ -35,6 +36,7 @@ function Layout() {
             </div>
           </div>
 
+          {/* Navbar */}
           <nav className="hidden md:flex items-center gap-6 relative">
             <Link to="/" className="font-medium text-white/90 hover:text-white">
               Home
@@ -50,24 +52,24 @@ function Layout() {
               </button>
 
               {gamesOpen && (
-                <div className="absolute mt-2 w-40 rounded-lg bg-gray-800 shadow-lg z-50">
+                <div className="absolute mt-2 w-44 rounded-lg bg-gray-800 shadow-lg z-50">
                   <div className="px-3 py-2 text-gray-300 font-semibold border-b border-gray-700">
                     Games
                   </div>
                   <div className="flex flex-col p-2 space-y-2">
                     <Link
                       to="/wordle"
-                      className="font-medium text-white/90 hover:text-white"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      Wordle
+                      🎯 Play Wordle
                     </Link>
                     <Link
                       to="/quiz"
-                      className="font-medium text-white/90 hover:text-white"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      Quiz
+                      📝 Take a Quiz
                     </Link>
                   </div>
                 </div>
@@ -82,11 +84,13 @@ function Layout() {
             </Link>
           </nav>
 
+          {/* User Info */}
           <div className="flex items-center gap-4">
-            <span className="text-sm">
-              Signed in as{" "}
-              <span className="font-semibold">{username}</span>
-            </span>
+            {username && (
+              <span className="text-sm">
+                Signed in as <span className="font-semibold">{username}</span>
+              </span>
+            )}
             {username && (
               <button
                 onClick={() => {
@@ -102,27 +106,15 @@ function Layout() {
         </div>
       </header>
 
+      {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-6">
         <Outlet />
       </main>
 
+      {/* Footer */}
       <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
-        <div className="flex justify-between items-center text-[var(--text-muted)] container mx-auto px-4">
+        <div className="flex justify-center items-center text-[var(--text-muted)] container mx-auto px-4">
           <div>© 2025 QuizMaster</div>
-          <div className="flex gap-4">
-            <Link to="/" className="hover:underline">
-              Home
-            </Link>
-            <Link to="/leaderboard" className="hover:underline">
-              Leaderboard
-            </Link>
-            <Link to="/wordle" className="hover:underline">
-              Wordle
-            </Link>
-            <Link to="/quiz" className="hover:underline">
-              Quiz
-            </Link>
-          </div>
         </div>
       </footer>
     </div>
