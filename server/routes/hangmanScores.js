@@ -15,10 +15,7 @@ router.post('/', async (req, res) => {
     }
     console.log('Validation passed. Data:', { username, wrongGuesses, word, outcome });
 
-    if (outcome !== 'win') {
-      console.log('Hangman score not saved: Outcome is not "win".');
-      return res.status(200).json({ message: 'Score not saved as outcome was not "win".' });
-    }
+    
 
     const doc = await HangmanScore.create({ username, wrongGuesses, word, outcome });
     console.log('Hangman score saved successfully:', doc);

@@ -37,7 +37,11 @@ export default function LeaderboardPage() {
         .slice()
         .sort((a, b) => {
           if (mode === "hangman") {
-            // For hangman, lower wrongGuesses is better
+            // Prioritize 'win' over 'lose'
+            if (a.outcome === 'win' && b.outcome === 'lose') return -1;
+            if (a.outcome === 'lose' && b.outcome === 'win') return 1;
+
+            // For same outcome, lower wrongGuesses is better
             return a.wrongGuesses - b.wrongGuesses || new Date(a.createdAt) - new Date(b.createdAt);
           }
           // For other modes, higher score is better
@@ -73,7 +77,8 @@ export default function LeaderboardPage() {
     if (mode === "quiz") return "Accuracy";
     if (mode === "wordle") return "Guesses Taken";
     if (mode === "crossword") return "Time Taken";
-    if (mode === "hangman") return "Wrong Guesses";
+    if (mode === "hangman") return "Word";
+    if (mode === "snake") return "Score";
     return null;
   };
 
@@ -81,7 +86,8 @@ export default function LeaderboardPage() {
     if (mode === "quiz") return `${item.accuracy}%`;
     if (mode === "wordle") return item.guessesTaken;
     if (mode === "crossword") return `${item.timeTaken}s`;
-    if (mode === "hangman") return item.wrongGuesses;
+    if (mode === "hangman") return item.word;
+    if (mode === "snake") return item.score;
     return null;
   };
 
@@ -227,11 +233,11 @@ export default function LeaderboardPage() {
                               </div>
                             </div>
                           </td>
-                          {getColumnValue(l) && (
-                            <td className="px-3 py-2">{getColumnValue(l)}</td>
-                          )}
                           <td className="px-3 py-2">
-                            {mode === "hangman" ? l.wrongGuesses : l.score}
+                            {getColumnValue(l)}
+                          </td>
+                          <td className="px-3 py-2">
+                            {mode === "hangman" ? l.outcome : l.score}
                           </td>
                           <td className="px-3 py-2">{dateOnly}</td>
                         </tr>

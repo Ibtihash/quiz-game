@@ -12,6 +12,62 @@ const wordList = [
   "commit", "merge", "pull", "request", "debug", "optimize", "refactor"
 ];
 
+const HangmanDrawing = ({ wrongGuesses }) => {
+  const HEAD = (
+    <div
+      key="head"
+      className="w-10 h-10 rounded-full border-4 border-gray-800 absolute top-12 right-[-16px] transition-all duration-300 ease-out"
+    />
+  );
+  const BODY = (
+    <div
+      key="body"
+      className="w-1.5 h-20 bg-gray-800 absolute top-24 right-0 transition-all duration-300 ease-out"
+    />
+  );
+  const RIGHT_ARM = (
+    <div
+      key="right-arm"
+      className="w-16 h-1.5 bg-gray-800 absolute top-28 right-[-60px] rotate-[-30deg] origin-bottom-left transition-all duration-300 ease-out"
+    />
+  );
+  const LEFT_ARM = (
+    <div
+      key="left-arm"
+      className="w-16 h-1.5 bg-gray-800 absolute top-28 right-[10px] rotate-[30deg] origin-bottom-right transition-all duration-300 ease-out"
+    />
+  );
+  const RIGHT_LEG = (
+    <div
+      key="right-leg"
+      className="w-16 h-1.5 bg-gray-800 absolute top-44 right-[-50px] rotate-[60deg] origin-bottom-left transition-all duration-300 ease-out"
+    />
+  );
+  const LEFT_LEG = (
+    <div
+      key="left-leg"
+      className="w-16 h-1.5 bg-gray-800 absolute top-44 right-[0px] rotate-[-60deg] origin-bottom-right transition-all duration-300 ease-out"
+    />
+  );
+
+  const BODY_PARTS = [HEAD, BODY, RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG];
+
+  return (
+    <div className="relative">
+      {BODY_PARTS.slice(0, wrongGuesses)}
+
+      {/* Rope */}
+      <div className="h-12 w-1.5 bg-gray-800 absolute top-0 right-0" />
+      {/* Top beam */}
+      <div className="h-1.5 w-28 bg-gray-800 ml-12" />
+      {/* Vertical beam */}
+      <div className="h-64 w-1.5 bg-gray-800 ml-12" />
+      {/* Base */}
+      <div className="h-1.5 w-48 bg-gray-800" />
+    </div>
+  );
+};
+
 const HangmanPage = () => {
   const [word, setWord] = useState('');
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -72,74 +128,7 @@ const HangmanPage = () => {
     }
   };
 
-  const getHangmanFigure = () => {
-    const figures = [
-      `
-        +---+
-        |   |
-            |
-            |
-            |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-            |
-            |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-        |   |
-            |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-       /|   |
-            |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-       /|\  |
-            |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-       /|\  |
-       /    |
-            |
-        =========
-      `,
-      `
-        +---+
-        |   |
-        O   |
-       /|\  |
-       / \  |
-            |
-        =========
-      `
-    ];
-    return figures[wrongGuesses];
-  };
+  
 
   const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
@@ -158,9 +147,9 @@ const HangmanPage = () => {
       <h1 className="text-5xl font-extrabold mb-8 text-gray-800 drop-shadow-lg">Hangman</h1>
 
       <div className="bg-white rounded-xl shadow-2xl p-8 mb-8 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
-        <pre className="text-gray-800 text-left text-xl leading-none mb-6 font-mono">
-          {getHangmanFigure()}
-        </pre>
+        <div className="relative w-48 h-64 mb-6">
+          <HangmanDrawing wrongGuesses={wrongGuesses} />
+        </div>
 
         <div className="text-6xl font-bold tracking-widest mb-8 text-center text-blue-700">
           {displayWord}
