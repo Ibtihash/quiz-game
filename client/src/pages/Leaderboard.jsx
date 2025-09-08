@@ -11,7 +11,7 @@ const [loading, setLoading] = useState(true)
 useEffect(()=>{
 (async()=>{
 try{
-const data = await API.getTop(50)
+const data = await API.getTopQuizScores(50)
 setRows(data)
 }catch(e){
 alert(e.message)

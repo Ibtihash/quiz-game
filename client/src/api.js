@@ -53,6 +53,18 @@ const API = {
     if (!res.ok) throw new Error('Failed to load snake leaderboard');
     return res.json();
   },
+
+  // Hangman Scores
+  async postHangmanScore(payload) {
+    const res = await fetch('/api/hangman-scores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit hangman score');
+    return res.json();
+  },
+  async getTopHangmanScores(limit = 20) {
+    const res = await fetch(`/api/hangman-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load hangman leaderboard');
+    return res.json();
+  },
 };
 
 export default API;

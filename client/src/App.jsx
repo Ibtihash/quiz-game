@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -11,6 +11,7 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import WordlePage from "./pages/WordlePage";
 import CrosswordPage from "./pages/CrosswordPage";
 import SnakeGamePage from "./pages/SnakeGamePage";
+import HangmanPage from "./pages/HangmanPage";
 
 function RequireAuth({ children }) {
   const username = localStorage.getItem("quiz_username");
@@ -20,6 +21,21 @@ function RequireAuth({ children }) {
 function Layout() {
   const username = localStorage.getItem("quiz_username");
   const [gamesOpen, setGamesOpen] = useState(false);
+  const dropdownRef = useRef(null); // Create a ref for the dropdown
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setGamesOpen(false);
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]); // Re-run if dropdownRef changes (though it won't in this case)
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
@@ -54,7 +70,10 @@ function Layout() {
               </button>
 
               {gamesOpen && (
-                <div className="absolute mt-2 w-44 rounded-lg bg-gray-800 shadow-lg z-50">
+                <div
+                  className="absolute mt-2 w-44 rounded-lg bg-gray-800 shadow-lg z-50"
+                  ref={dropdownRef} // Add ref to the dropdown div
+                >
                   <div className="px-3 py-2 text-gray-300 font-semibold border-b border-gray-700">
                     Games
                   </div>
@@ -86,6 +105,13 @@ function Layout() {
                       onClick={() => setGamesOpen(false)}
                     >
                       🐍 Play Snake
+                    </Link>
+                    <Link
+                      to="/hangman"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      🪢 Play Hangman
                     </Link>
                   </div>
                 </div>
@@ -183,6 +209,14 @@ export default function App() {
           element={
             <RequireAuth>
               <SnakeGamePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="hangman"
+          element={
+            <RequireAuth>
+              <HangmanPage />
             </RequireAuth>
           }
         />

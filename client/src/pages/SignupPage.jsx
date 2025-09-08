@@ -11,7 +11,7 @@ export default function SignupPage() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,16 +24,16 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true);
+    setLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
-      setIsLoading(false);
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch(`${API_BASE}/api/auth/signup`, {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -43,22 +43,22 @@ export default function SignupPage() {
         }),
       });
 
-      const data = await response.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (!response.ok) {
-        throw new Error(data.message || `Signup failed (${response.status})`);
+      if (!res.ok) {
+        throw new Error(data.message || `Signup failed (${res.status})`);
       }
 
-            navigate("/login");
+      navigate("/login", { state: { message: "Account created! Please log in." } });
     } catch (err) {
       setError(err.message || "An error occurred during signup");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[var(--page-bg)] px-4">
+    <div className="flex items-center justify-center bg-[var(--page-bg)] px-4 min-h-screen">
       <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md">
         <div className="flex items-center mb-4">
           <div className="bg-[var(--accent-green)] text-white rounded-lg w-12 h-12 flex items-center justify-center text-xl font-bold mr-3">
@@ -79,14 +79,14 @@ export default function SignupPage() {
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="space-y-4">
             <input
               id="email"
               name="email"
               type="email"
               required
               placeholder="Email address"
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={formData.email}
               onChange={handleChange}
             />
@@ -96,7 +96,7 @@ export default function SignupPage() {
               type="text"
               required
               placeholder="Username"
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={formData.username}
               onChange={handleChange}
             />
@@ -106,7 +106,7 @@ export default function SignupPage() {
               type="password"
               required
               placeholder="Password"
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={formData.password}
               onChange={handleChange}
             />
@@ -116,31 +116,33 @@ export default function SignupPage() {
               type="password"
               required
               placeholder="Confirm Password"
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={formData.confirmPassword}
               onChange={handleChange}
             />
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`group relative w-full flex justify-center py-2 px-4 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {isLoading ? "Creating account..." : "Sign up"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 px-4 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Creating account..." : "Sign up"}
+          </button>
         </form>
+
         <div className="text-sm text-center mt-4">
-            <p className="text-[var(--text-muted)]">
-                Already have an account?{" "}
-                <Link to="/login" className="font-medium text-[var(--accent-green)] hover:underline">
-                    Log in
-                </Link>
-            </p>
+          <p className="text-[var(--text-muted)]">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-medium text-[var(--accent-green)] hover:underline"
+            >
+              Log in
+            </Link>
+          </p>
         </div>
       </div>
     </div>

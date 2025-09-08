@@ -15,7 +15,7 @@ export default function LeaderboardPage() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", or "snake"
+  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", or "hangman"
 
   const fetchLeaderboard = async () => {
     setLoading(true);
@@ -29,11 +29,20 @@ export default function LeaderboardPage() {
         data = await API.getTopCrosswordScores();
       } else if (mode === "snake") {
         data = await API.getTopSnakeScores();
+      } else if (mode === "hangman") {
+        data = await API.getTopHangmanScores();
       }
 
       const sorted = (data || [])
         .slice()
-        .sort((a, b) => b.score - a.score || new Date(a.createdAt) - new Date(b.createdAt));
+        .sort((a, b) => {
+          if (mode === "hangman") {
+            // For hangman, lower wrongGuesses is better
+            return a.wrongGuesses - b.wrongGuesses || new Date(a.createdAt) - new Date(b.createdAt);
+          }
+          // For other modes, higher score is better
+          return b.score - a.score || new Date(a.createdAt) - new Date(b.createdAt);
+        });
       setList(sorted);
     } catch {
       setList([]);
@@ -56,6 +65,7 @@ export default function LeaderboardPage() {
     if (mode === "wordle") return "Top Wordle Players";
     if (mode === "crossword") return "Top Crossword Players";
     if (mode === "snake") return "Top Snake Players";
+    if (mode === "hangman") return "Top Hangman Players";
     return "Top Players";
   };
 
@@ -63,6 +73,7 @@ export default function LeaderboardPage() {
     if (mode === "quiz") return "Accuracy";
     if (mode === "wordle") return "Guesses Taken";
     if (mode === "crossword") return "Time Taken";
+    if (mode === "hangman") return "Wrong Guesses";
     return null;
   };
 
@@ -70,6 +81,7 @@ export default function LeaderboardPage() {
     if (mode === "quiz") return `${item.accuracy}%`;
     if (mode === "wordle") return item.guessesTaken;
     if (mode === "crossword") return `${item.timeTaken}s`;
+    if (mode === "hangman") return item.wrongGuesses;
     return null;
   };
 
@@ -114,6 +126,14 @@ export default function LeaderboardPage() {
         >
           Snake Scores
         </button>
+        <button
+          onClick={() => setMode("hangman")}
+          className={`px-4 py-2 rounded ${
+            mode === "hangman" ? "bg-green-600 text-white" : "bg-gray-200"
+          }`}
+        >
+          Hangman Scores
+        </button>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
@@ -121,7 +141,7 @@ export default function LeaderboardPage() {
           <div>
             <div className="font-medium">{getModeTitle()}</div>
             <div className="text-sm text-gray-500">
-              Sorted by highest score — latest entries first
+              {mode === "hangman" ? "Sorted by fewest wrong guesses — latest entries first" : "Sorted by highest score — latest entries first"}
             </div>
           </div>
 
@@ -199,13 +219,20 @@ export default function LeaderboardPage() {
                                     Accuracy: <strong>{l.accuracy}%</strong>
                                   </div>
                                 )}
+                                {mode === "hangman" && (
+                                  <div className="text-xs text-gray-500">
+                                    Word: <strong>{l.word}</strong>, Outcome: <strong>{l.outcome}</strong>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </td>
                           {getColumnValue(l) && (
                             <td className="px-3 py-2">{getColumnValue(l)}</td>
                           )}
-                          <td className="px-3 py-2">{l.score}</td>
+                          <td className="px-3 py-2">
+                            {mode === "hangman" ? l.wrongGuesses : l.score}
+                          </td>
                           <td className="px-3 py-2">{dateOnly}</td>
                         </tr>
                       );
@@ -228,7 +255,17 @@ export default function LeaderboardPage() {
                 {filtered.length} result(s)
               </div>
               <Link
-                to={mode === "quiz" ? "/quiz" : (mode === "wordle" ? "/wordle" : (mode === "crossword" ? "/crossword" : "/snake-game"))}
+                to={
+                  mode === "quiz"
+                    ? "/quiz"
+                    : mode === "wordle"
+                    ? "/wordle"
+                    : mode === "crossword"
+                    ? "/crossword"
+                    : mode === "snake"
+                    ? "/snake-game"
+                    : "/hangman"
+                }
                 className="dashboard-btn"
               >
                 Play & Submit Score

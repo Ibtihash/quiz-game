@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API from "../api"; // Import API utility
 
 export default function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -24,14 +25,7 @@ export default function Quiz() {
 
       console.log('Sending quiz score data:', scoreData); // Added logging
 
-      fetch('http://localhost:4000/api/quiz-scores', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(scoreData),
-      })
-        .then(response => response.json())
+      API.postQuizScore(scoreData) // Use API utility
         .then(data => {
           console.log('Quiz score saved:', data);
         })

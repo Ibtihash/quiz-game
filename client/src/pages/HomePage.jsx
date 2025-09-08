@@ -58,6 +58,18 @@ export default function HomePage() {
           </h2>
           <p className="text-sm text-[var(--text-muted)]">Eat the fruit</p>
         </Link>
+
+        {/* Hangman Card */}
+        <Link
+          to="/hangman"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-yellow-50"
+        >
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🪢</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-yellow-600">
+            Play Hangman
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">Guess the word</p>
+        </Link>
       </div>
     </div>
   );

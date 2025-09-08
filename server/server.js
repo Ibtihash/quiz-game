@@ -13,6 +13,7 @@ import wordleScoresRoute from './routes/wordleScores.js';
 import quizScoresRoute from './routes/quizScores.js';
 import crosswordScoresRoute from './routes/crosswordScores.js';
 import snakeScoresRoute from './routes/snakeScores.js';
+import hangmanScoresRoute from './routes/hangmanScores.js';
 
 // ...
 
@@ -32,6 +33,7 @@ app.use('/api/wordle-scores', wordleScoresRoute);
 app.use('/api/quiz-scores', quizScoresRoute);
 app.use('/api/crossword-scores', crosswordScoresRoute);
 app.use('/api/snake-scores', snakeScoresRoute);
+app.use('/api/hangman-scores', hangmanScoresRoute);
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/quiz-game';
