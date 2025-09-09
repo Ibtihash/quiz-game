@@ -12,7 +12,7 @@ const AuthHeader = () => {
             Q
           </div>
           <div className="text-white">
-            <h1 className="text-xl font-bold">QuizMaster</h1>
+            <h1 className="text-xl font-bold">Think & Play</h1>
             <p className="text-sm">Test your knowledge</p>
           </div>
         </Link>

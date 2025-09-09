@@ -44,12 +44,12 @@ function Layout() {
           {/* Logo Section */}
           <div className="flex items-center gap-3">
             <div className="bg-white text-[var(--accent-green)] w-10 h-10 rounded-lg flex items-center justify-center font-bold">
-              Q
+              T&P
             </div>
             <div>
-              <div className="font-semibold text-lg">QuizMaster</div>
+              <div className="font-semibold text-lg">Think & Play</div>
               <div className="text-sm text-[var(--text-light)]/80">
-                Test your knowledge
+                Where Fun Meets Brainpower.
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ function Layout() {
       {/* Footer */}
       <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
         <div className="flex justify-center items-center text-[var(--text-muted)] container mx-auto px-4">
-          <div>© 2025 QuizMaster</div>
+          <div>© 2025 Think & Play</div>
         </div>
       </footer>
     </div>

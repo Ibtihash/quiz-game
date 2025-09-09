@@ -5,7 +5,7 @@ export default function Home(){
 return (
 <div className="grid gap-8">
 <section className="text-center">
-<h2 className="text-4xl font-bold">Welcome to <span className="text-brand-500">QuizMaster</span></h2>
+<h2 className="text-4xl font-bold">Welcome to <span className="text-brand-500">Think & Play</span></h2>
 <p className="text-slate-300 mt-2">10 random questions. 1 goal — score as high as you can.</p>
 </section>
 

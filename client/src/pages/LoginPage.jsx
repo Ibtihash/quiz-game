@@ -57,25 +57,17 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center bg-[var(--page-bg)] px-4 min-h-screen">
       <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md">
-        <div className="flex items-center mb-4">
-          <div className="bg-[var(--accent-green)] text-white rounded-lg w-12 h-12 flex items-center justify-center text-xl font-bold mr-3">
-            Q
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">Welcome back</h3>
-            <p className="text-sm text-[var(--text-muted)]">
-              Sign in to continue
-            </p>
-          </div>
-        </div>
+        
+        {/* Title */}
+        <h2 className="text-center text-2xl font-bold text-gray-800">Login</h2>
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+          <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4 mt-4">
             <p className="text-sm text-red-700">{error}</p>
           </div>
         )}
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
+        <form className="mt-6 space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
             <input
               id="email"
@@ -125,7 +117,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 px-4 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 ${
+            className={`w-full py-2 px-4 text-sm font-medium rounded-md text-white bg-[var(--accent-green)] hover:bg-green-700 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

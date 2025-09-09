@@ -10,7 +10,7 @@ return (
 <Link to="/" className="flex items-center gap-3">
 <div className="size-9 rounded-2xl bg-brand-600 grid place-items-center font-bold">Q</div>
 <div>
-<h1 className="text-lg font-semibold leading-tight">QuizMaster</h1>
+<h1 className="text-lg font-semibold leading-tight">Think & Play</h1>
 <p className="text-xs text-slate-400 -mt-0.5">Test your knowledge</p>
 </div>
 </Link>
