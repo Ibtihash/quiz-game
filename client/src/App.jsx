@@ -12,6 +12,7 @@ import WordlePage from "./pages/WordlePage";
 import CrosswordPage from "./pages/CrosswordPage";
 import SnakeGamePage from "./pages/SnakeGamePage";
 import HangmanPage from "./pages/HangmanPage";
+import ScramblePage from "./pages/ScramblePage";
 
 function RequireAuth({ children }) {
   const username = localStorage.getItem("quiz_username");
@@ -112,6 +113,13 @@ function Layout() {
                       onClick={() => setGamesOpen(false)}
                     >
                       🪢 Play Hangman
+                    </Link>
+                    <Link
+                      to="/scramble"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      🔄 Play Scramble
                     </Link>
                   </div>
                 </div>
@@ -217,6 +225,14 @@ export default function App() {
           element={
             <RequireAuth>
               <HangmanPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="scramble"
+          element={
+            <RequireAuth>
+              <ScramblePage />
             </RequireAuth>
           }
         />

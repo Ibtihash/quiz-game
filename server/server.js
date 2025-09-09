@@ -14,6 +14,7 @@ import quizScoresRoute from './routes/quizScores.js';
 import crosswordScoresRoute from './routes/crosswordScores.js';
 import snakeScoresRoute from './routes/snakeScores.js';
 import hangmanScoresRoute from './routes/hangmanScores.js';
+import scrambleScoresRoute from './routes/scrambleScores.js';
 
 // ...
 
@@ -34,12 +35,14 @@ app.use('/api/quiz-scores', quizScoresRoute);
 app.use('/api/crossword-scores', crosswordScoresRoute);
 app.use('/api/snake-scores', snakeScoresRoute);
 app.use('/api/hangman-scores', hangmanScoresRoute);
+console.log('Scramble scores route loaded');
+app.use('/api/scramble-scores', scrambleScoresRoute);
+
+import { connectDB } from './db.js';
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/quiz-game';
-mongoose.connect(MONGODB_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+connectDB(MONGODB_URI);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ ok: true }));

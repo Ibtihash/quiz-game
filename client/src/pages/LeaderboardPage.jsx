@@ -15,36 +15,36 @@ export default function LeaderboardPage() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", or "hangman"
+  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", "hangman", or "scramble"
 
   const fetchLeaderboard = async () => {
     setLoading(true);
     try {
       let data;
-      if (mode === "quiz") {
-        data = await API.getTopQuizScores();
-      } else if (mode === "wordle") {
-        data = await API.getTopWordleScores();
-      } else if (mode === "crossword") {
-        data = await API.getTopCrosswordScores();
-      } else if (mode === "snake") {
-        data = await API.getTopSnakeScores();
-      } else if (mode === "hangman") {
-        data = await API.getTopHangmanScores();
-      }
+      if (mode === "quiz") data = await API.getTopQuizScores();
+      else if (mode === "wordle") data = await API.getTopWordleScores();
+      else if (mode === "crossword") data = await API.getTopCrosswordScores();
+      else if (mode === "snake") data = await API.getTopSnakeScores();
+      else if (mode === "hangman") data = await API.getTopHangmanScores();
+      else if (mode === "scramble") data = await API.getTopScrambleScores();
 
       const sorted = (data || [])
         .slice()
         .sort((a, b) => {
           if (mode === "hangman") {
-            // Prioritize 'win' over 'lose'
-            if (a.outcome === 'win' && b.outcome === 'lose') return -1;
-            if (a.outcome === 'lose' && b.outcome === 'win') return 1;
-
-            // For same outcome, lower wrongGuesses is better
-            return a.wrongGuesses - b.wrongGuesses || new Date(a.createdAt) - new Date(b.createdAt);
+            if (a.outcome === "win" && b.outcome === "lose") return -1;
+            if (a.outcome === "lose" && b.outcome === "win") return 1;
+            return (
+              a.wrongGuesses - b.wrongGuesses ||
+              new Date(a.createdAt) - new Date(b.createdAt)
+            );
+          } else if (mode === "scramble") {
+            return (
+              b.score - a.score ||
+              a.time - b.time ||
+              new Date(a.createdAt) - new Date(b.createdAt)
+            );
           }
-          // For other modes, higher score is better
           return b.score - a.score || new Date(a.createdAt) - new Date(b.createdAt);
         });
       setList(sorted);
@@ -78,7 +78,7 @@ export default function LeaderboardPage() {
     if (mode === "wordle") return "Guesses Taken";
     if (mode === "crossword") return "Time Taken";
     if (mode === "hangman") return "Word";
-    if (mode === "snake") return "Score";
+    if (mode === "snake" || mode === "scramble") return "Score";
     return null;
   };
 
@@ -87,7 +87,7 @@ export default function LeaderboardPage() {
     if (mode === "wordle") return item.guessesTaken;
     if (mode === "crossword") return `${item.timeTaken}s`;
     if (mode === "hangman") return item.word;
-    if (mode === "snake") return item.score;
+    if (mode === "snake" || mode === "scramble") return item.score;
     return null;
   };
 
@@ -99,47 +99,18 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Mode Switch */}
-      <div className="flex gap-4 mb-4">
-        <button
-          onClick={() => setMode("quiz")}
-          className={`px-4 py-2 rounded ${
-            mode === "quiz" ? "bg-green-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          Quiz Scores
-        </button>
-        <button
-          onClick={() => setMode("wordle")}
-          className={`px-4 py-2 rounded ${
-            mode === "wordle" ? "bg-green-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          Wordle Scores
-        </button>
-        <button
-          onClick={() => setMode("crossword")}
-          className={`px-4 py-2 rounded ${
-            mode === "crossword" ? "bg-green-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          Crossword Scores
-        </button>
-        <button
-          onClick={() => setMode("snake")}
-          className={`px-4 py-2 rounded ${
-            mode === "snake" ? "bg-green-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          Snake Scores
-        </button>
-        <button
-          onClick={() => setMode("hangman")}
-          className={`px-4 py-2 rounded ${
-            mode === "hangman" ? "bg-green-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          Hangman Scores
-        </button>
+      <div className="flex gap-4 mb-4 justify-center">
+        {["quiz", "wordle", "crossword", "snake", "hangman", "scramble"].map((m) => (
+          <button
+            key={m}
+            onClick={() => setMode(m)}
+            className={`px-4 py-2 rounded ${
+              mode === m ? "bg-green-600 text-white" : "bg-gray-200"
+            }`}
+          >
+            {m.charAt(0).toUpperCase() + m.slice(1)} Scores
+          </button>
+        ))}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
@@ -147,7 +118,9 @@ export default function LeaderboardPage() {
           <div>
             <div className="font-medium">{getModeTitle()}</div>
             <div className="text-sm text-gray-500">
-              {mode === "hangman" ? "Sorted by fewest wrong guesses — latest entries first" : "Sorted by highest score — latest entries first"}
+              {mode === "hangman"
+                ? "Sorted by fewest wrong guesses — latest entries first"
+                : "Sorted by highest score — latest entries first"}
             </div>
           </div>
 
@@ -183,18 +156,15 @@ export default function LeaderboardPage() {
         ) : (
           <>
             <div className="overflow-x-auto mt-4">
-              <table className="w-full text-sm border-collapse">
+              <table className="w-full text-sm border-collapse text-left">
                 <thead>
                   <tr className="bg-gray-50">
-                    <th className="px-3 py-2 text-left w-[6%]">Sr No.</th>
-                    <th className="px-3 py-2 text-left w-[40%]">Name</th>
+                    <th className="px-3 py-2 w-[6%]">Sr No.</th>
+                    <th className="px-3 py-2 w-[40%]">Name</th>
                     {getColumnHeader() && (
-                      <th className="px-3 py-2 text-left w-[18%]">
-                        {getColumnHeader()}
-                      </th>
+                      <th className="px-3 py-2 w-[18%]">{getColumnHeader()}</th>
                     )}
-                    <th className="px-3 py-2 text-left w-[18%]">Score</th>
-                    <th className="px-3 py-2 text-left w-[18%]">Date</th>
+                    <th className="px-3 py-2 w-[18%]">Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -208,10 +178,7 @@ export default function LeaderboardPage() {
                         : "—";
 
                       return (
-                        <tr
-                          key={l._id || `${name}-${i}`}
-                          className="border-t"
-                        >
+                        <tr key={l._id || `${name}-${i}`} className="border-t">
                           <td className="px-3 py-2">{rank}</td>
                           <td className="px-3 py-2">
                             <div className="flex items-center gap-3">
@@ -220,32 +187,25 @@ export default function LeaderboardPage() {
                               </div>
                               <div>
                                 <div className="font-semibold">{name}</div>
-                                {mode === "quiz" && (
-                                  <div className="text-xs text-gray-500">
-                                    Accuracy: <strong>{l.accuracy}%</strong>
-                                  </div>
-                                )}
                                 {mode === "hangman" && (
                                   <div className="text-xs text-gray-500">
-                                    Word: <strong>{l.word}</strong>, Outcome: <strong>{l.outcome}</strong>
+                                    Word: <strong>{l.word}</strong>, Outcome:{" "}
+                                    <strong>{l.outcome}</strong>
                                   </div>
                                 )}
                               </div>
                             </div>
                           </td>
-                          <td className="px-3 py-2">
-                            {getColumnValue(l)}
-                          </td>
-                          <td className="px-3 py-2">
-                            {mode === "hangman" ? l.outcome : l.score}
-                          </td>
+                          {getColumnHeader() && (
+                            <td className="px-3 py-2">{getColumnValue(l)}</td>
+                          )}
                           <td className="px-3 py-2">{dateOnly}</td>
                         </tr>
                       );
                     })
                   ) : (
                     <tr>
-                      <td colSpan={5} className="text-center text-gray-500 py-6">
+                      <td colSpan={4} className="text-center text-gray-500 py-6">
                         {query
                           ? `No scores found for "${query}"`
                           : "No scores yet — be the first!"}

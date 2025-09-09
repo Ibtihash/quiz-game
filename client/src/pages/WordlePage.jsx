@@ -3,8 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 const GUESS_LENGTH = 5;
 const MAX_GUESSES = 6;
 const MAX_HINTS = 2;
-const WORD_LIST_URL =
-  "https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt";
+import { WORDS as ALL_WORDS } from "../wordlist";
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 // Helper to get a new solution word
@@ -162,29 +161,25 @@ export default function WordlePage() {
   const [revealedLetters, setRevealedLetters] = useState([]); // Stores { letter: 'A', index: 0 }
 
   useEffect(() => {
-    const fetchWords = async () => {
+    const loadWords = () => {
       try {
         setLoadingWords(true);
-        const response = await fetch(WORD_LIST_URL);
-        const text = await response.text();
         const words = [
           ...new Set(
-            text
-              .split("\n")
-              .filter(
-                (word) => word.length === GUESS_LENGTH && /^[a-z]+$/.test(word)
-              )
+            ALL_WORDS.filter(
+              (word) => word.length === GUESS_LENGTH && /^[a-z]+$/.test(word)
+            )
           ),
         ];
         setWordList(words);
       } catch (error) {
-        console.error("Failed to fetch word list:", error);
+        console.error("Failed to load word list:", error);
         setMessage("Error loading words. Please try again later.");
       } finally {
         setLoadingWords(false);
       }
     };
-    fetchWords();
+    loadWords();
   }, []);
 
   const startNewGame = useCallback(() => {
