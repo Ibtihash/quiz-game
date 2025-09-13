@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import api from "../api";
+import { API as api } from "../api";
 
 // Word pool (can be expanded or fetched via API)
 const WORDS = ["CODE", "AI", "REACT", "JSX", "QUIZ", "NODE", "APP", "JAVA", "HTML", "CSS"];

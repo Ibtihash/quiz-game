@@ -20,7 +20,6 @@ export default function HomePage() {
           <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-blue-600">
             Take a Quiz
           </h2>
-          <p className="text-sm text-[var(--text-muted)]">Test your knowledge</p>
         </Link>
 
         {/* Wordle Card */}
@@ -81,6 +80,18 @@ export default function HomePage() {
             Play Scramble
           </h2>
           <p className="text-sm text-[var(--text-muted)]">Unscramble the word</p>
+        </Link>
+
+        {/* 2048 Card */}
+        <Link
+          to="/2048"
+          className="group flex flex-col items-center justify-center w-64 h-48 bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 text-center cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:shadow-2xl hover:bg-blue-50"
+        >
+          <span className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🔢</span>
+          <h2 className="text-xl font-semibold text-[var(--text-dark)] group-hover:text-blue-600">
+            Play 2048
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">Merge the numbers</p>
         </Link>
       </div>
     </div>

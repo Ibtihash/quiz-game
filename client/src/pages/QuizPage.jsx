@@ -76,10 +76,10 @@ export default function QuizPage() {
 
   const finish = async () => {
     try {
-      await fetch(`${API_BASE}/api/questions/submit`, {
+      await fetch(`${API_BASE}/api/quiz-scores`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, score }),
+        body: JSON.stringify({ username, score, total: questions.length }),
       });
     } catch {}
     nav("/leaderboard");

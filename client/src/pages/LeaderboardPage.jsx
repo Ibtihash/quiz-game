@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import API from "../api";
+import { API } from "../api";
 
 function initials(name = "") {
   return name
@@ -15,7 +15,7 @@ export default function LeaderboardPage() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", "hangman", or "scramble"
+  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", "hangman", "scramble", or "game2048"
 
   const fetchLeaderboard = async () => {
     setLoading(true);
@@ -27,6 +27,7 @@ export default function LeaderboardPage() {
       else if (mode === "snake") data = await API.getTopSnakeScores();
       else if (mode === "hangman") data = await API.getTopHangmanScores();
       else if (mode === "scramble") data = await API.getTopScrambleScores();
+      else if (mode === "game2048") data = await API.getTopGame2048Scores();
 
       const sorted = (data || [])
         .slice()
@@ -70,6 +71,7 @@ export default function LeaderboardPage() {
     if (mode === "crossword") return "Top Crossword Players";
     if (mode === "snake") return "Top Snake Players";
     if (mode === "hangman") return "Top Hangman Players";
+    if (mode === "game2048") return "Top 2048 Players";
     return "Top Players";
   };
 
@@ -79,6 +81,7 @@ export default function LeaderboardPage() {
     if (mode === "crossword") return "Time Taken";
     if (mode === "hangman") return "Word";
     if (mode === "snake" || mode === "scramble") return "Score";
+    if (mode === "game2048") return "Score";
     return null;
   };
 
@@ -88,6 +91,7 @@ export default function LeaderboardPage() {
     if (mode === "crossword") return `${item.timeTaken}s`;
     if (mode === "hangman") return item.word;
     if (mode === "snake" || mode === "scramble") return item.score;
+    if (mode === "game2048") return item.score;
     return null;
   };
 
@@ -100,7 +104,7 @@ export default function LeaderboardPage() {
 
       {/* Mode Switch */}
       <div className="flex gap-4 mb-4 justify-center">
-        {["quiz", "wordle", "crossword", "snake", "hangman", "scramble"].map((m) => (
+        {["quiz", "wordle", "crossword", "snake", "hangman", "scramble", "game2048"].map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}
@@ -230,7 +234,11 @@ export default function LeaderboardPage() {
                     ? "/crossword"
                     : mode === "snake"
                     ? "/snake-game"
-                    : "/hangman"
+                    : mode === "hangman"
+                    ? "/hangman" 
+                    : mode === "game2048"
+                    ? "/game2048"
+                    : "/"
                 }
                 className="dashboard-btn"
               >

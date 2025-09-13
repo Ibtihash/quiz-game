@@ -79,6 +79,18 @@ const API = {
     if (!res.ok) throw new Error('Failed to load scramble leaderboard');
     return res.json();
   },
+
+  // 2048 Scores
+  async postGame2048Score(payload) {
+    const res = await fetch(`${BASE_URL}/api/game2048-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit 2048 score');
+    return res.json();
+  },
+  async getTopGame2048Scores(limit = 20) {
+    const res = await fetch(`${BASE_URL}/api/game2048-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load 2048 leaderboard');
+    return res.json();
+  },
 };
 
-export default API;
+export { API };

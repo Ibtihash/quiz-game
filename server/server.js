@@ -1,3 +1,4 @@
+console.log('---- server.js reloaded ----');
 // server/server.js
 import 'dotenv/config';
 import express from 'express';
@@ -5,6 +6,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+
+// Import DB connection
+import { connectDB } from './db.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -15,14 +19,20 @@ import crosswordScoresRoute from './routes/crosswordScores.js';
 import snakeScoresRoute from './routes/snakeScores.js';
 import hangmanScoresRoute from './routes/hangmanScores.js';
 import scrambleScoresRoute from './routes/scrambleScores.js';
+import game2048ScoresRoute from './routes/game2048Scores.js'; // Added for Game2048
 
-// ...
+// Import models (if needed)
+import Game2048Score from './models/Game2048Score.js';
 
 // Setup
 const app = express();
 
-// Middleware
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || '*' }));
+// ✅ Fix: Proper CORS fallback
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',')
+  : '*';
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
@@ -37,12 +47,12 @@ app.use('/api/snake-scores', snakeScoresRoute);
 app.use('/api/hangman-scores', hangmanScoresRoute);
 console.log('Scramble scores route loaded');
 app.use('/api/scramble-scores', scrambleScoresRoute);
+app.use('/api/game2048-scores', game2048ScoresRoute);
 
-import { connectDB } from './db.js';
-
-// MongoDB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/quiz-game';
-connectDB(MONGODB_URI);
+// Test route
+app.get('/api/testing123', async (req, res) => {
+  res.json({ message: 'Game2048 testing route working!' });
+});
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ ok: true }));
@@ -73,4 +83,12 @@ function startServer(port) {
   });
 }
 
-startServer(currentPort);
+// Connect to DB, then start server
+connectDB()
+  .then(() => {
+    startServer(currentPort);
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });

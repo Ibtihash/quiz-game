@@ -13,6 +13,7 @@ import CrosswordPage from "./pages/CrosswordPage";
 import SnakeGamePage from "./pages/SnakeGamePage";
 import HangmanPage from "./pages/HangmanPage";
 import ScramblePage from "./pages/ScramblePage";
+import Game2048Page from "./pages/Game2048Page";
 
 function RequireAuth({ children }) {
   const username = localStorage.getItem("quiz_username");
@@ -120,6 +121,13 @@ function Layout() {
                       onClick={() => setGamesOpen(false)}
                     >
                       🔄 Play Scramble
+                    </Link>
+                    <Link
+                      to="/2048"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      🔢 Play 2048
                     </Link>
                   </div>
                 </div>
@@ -233,6 +241,14 @@ export default function App() {
           element={
             <RequireAuth>
               <ScramblePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="2048"
+          element={
+            <RequireAuth>
+              <Game2048Page />
             </RequireAuth>
           }
         />

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import API from '../api';
+import { API } from '../api';
 
 const BOARD_SIZE = 20;
 const CELL_SIZE = 20; // in pixels
