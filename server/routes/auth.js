@@ -4,6 +4,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
+
 const router = express.Router();
 
 // --- SIGNUP ---
@@ -23,21 +24,23 @@ router.post("/signup", async (req, res) => {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
       email,
       username,
       password: hashedPassword,
     });
-
     await user.save();
 
-    res.status(201).json({ message: "Signup successful, check your email!" });
+    res.status(201).json({ message: "Registration successful. You can now log in." });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+
+
+
 
 // --- LOGIN ---
 router.post("/login", async (req, res) => {
@@ -124,4 +127,3 @@ router.post("/reset-password/:token", async (req, res) => {
 });
 
 export default router;
-

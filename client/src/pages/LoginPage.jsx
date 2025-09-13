@@ -55,11 +55,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-[var(--page-bg)] px-4 min-h-screen">
-      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md">
+    <div className="flex items-center justify-center bg-[var(--accent-green)] min-h-screen">
+      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md animate-fade-in-scale">
         
-        {/* Title */}
-        <h2 className="text-center text-2xl font-bold text-gray-800">Login</h2>
+        <div className="flex flex-col items-center justify-center mb-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="bg-[var(--accent-green)] text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
+              T&P
+            </div>
+            <div>
+              <div className="font-semibold text-xl text-gray-800">Think & Play</div>
+              <div className="text-sm text-gray-600">
+                Where Fun Meets Brainpower.
+              </div>
+            </div>
+          </div>
+          <h2 className="text-center text-2xl font-bold text-gray-800">Login</h2>
+        </div>
 
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4 mt-4">

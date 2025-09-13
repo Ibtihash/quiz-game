@@ -7,7 +7,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
-import VerifyEmailPage from "./pages/VerifyEmailPage";
+
 import WordlePage from "./pages/WordlePage";
 import CrosswordPage from "./pages/CrosswordPage";
 import SnakeGamePage from "./pages/SnakeGamePage";
@@ -179,6 +179,23 @@ function Layout() {
   );
 }
 
+function NoHeaderLayout() {
+  return (
+    <div className="min-h-screen flex flex-col bg-[var(--accent-green)] text-[var(--text-dark)]">
+      <main className="flex-1">
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
+        <div className="flex justify-center items-center text-[var(--text-muted)] container mx-auto px-4">
+          <div>© 2025 Think & Play</div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <Routes>
@@ -191,11 +208,9 @@ export default function App() {
             </RequireAuth>
           }
         />
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="login" element={<LoginPage />} />
         <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="reset-password/:token" element={<ResetPasswordPage />} />
-        <Route path="verify" element={<VerifyEmailPage />} />
+        
         <Route
           path="quiz"
           element={
@@ -254,6 +269,10 @@ export default function App() {
         />
         <Route path="leaderboard" element={<LeaderboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+      <Route path="/" element={<NoHeaderLayout />}>
+        <Route path="signup" element={<SignupPage />} />
+        <Route path="login" element={<LoginPage />} />
       </Route>
     </Routes>
   );

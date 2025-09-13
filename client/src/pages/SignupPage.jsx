@@ -12,6 +12,13 @@ export default function SignupPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordCriteria, setPasswordCriteria] = useState({
+    minLength: false,
+    uppercase: false,
+    specialChar: false,
+    alphanumeric: false,
+  });
+  const [passwordCriteriaVisible, setPasswordCriteriaVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,6 +26,16 @@ export default function SignupPage() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    if (e.target.name === "password") {
+      const password = e.target.value;
+      setPasswordCriteria({
+        minLength: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+        alphanumeric: /[a-zA-Z0-9]/.test(password),
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -28,6 +45,12 @@ export default function SignupPage() {
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (!passwordCriteria.minLength || !passwordCriteria.uppercase || !passwordCriteria.specialChar || !passwordCriteria.alphanumeric) {
+      setError("Password does not meet the requirements.");
       setLoading(false);
       return;
     }
@@ -46,10 +69,10 @@ export default function SignupPage() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.message || `Signup failed (${res.status})`);
+        throw new Error(data.message || `Registration failed (${res.status})`);
       }
 
-      navigate("/login", { state: { message: "Account created! Please log in." } });
+      navigate("/login");
     } catch (err) {
       setError(err.message || "An error occurred during signup");
     } finally {
@@ -58,11 +81,23 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-[var(--page-bg)] px-4 min-h-screen">
-      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md">
+    <div className="flex items-center justify-center bg-[var(--accent-green)] min-h-screen">
+      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow-lg p-6 w-full max-w-md animate-fade-in-scale">
         
-        {/* Title */}
-        <h2 className="text-center text-2xl font-bold text-gray-800">Sign Up</h2>
+        <div className="flex flex-col items-center justify-center mb-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="bg-[var(--accent-green)] text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
+              T&P
+            </div>
+            <div>
+              <div className="font-semibold text-xl text-gray-800">Think & Play</div>
+              <div className="text-sm text-gray-600">
+                Where Fun Meets Brainpower.
+              </div>
+            </div>
+          </div>
+          <h2 className="text-center text-2xl font-bold text-gray-800">Sign Up</h2>
+        </div>
 
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4 mt-4">
@@ -101,7 +136,18 @@ export default function SignupPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
               value={formData.password}
               onChange={handleChange}
+              onFocus={() => setPasswordCriteriaVisible(true)}
+              onBlur={() => setPasswordCriteriaVisible(false)}
             />
+            {passwordCriteriaVisible && (
+              <div className="text-xs text-gray-500">
+                <p className="font-bold">Password must contain:</p>
+                <p className={passwordCriteria.minLength ? "text-green-500" : "text-gray-500"}>{passwordCriteria.minLength ? "✓" : "- "} At least 8 characters</p>
+                <p className={passwordCriteria.uppercase ? "text-green-500" : "text-gray-500"}>{passwordCriteria.uppercase ? "✓" : "- "} At least one uppercase letter</p>
+                <p className={passwordCriteria.specialChar ? "text-green-500" : "text-gray-500"}>{passwordCriteria.specialChar ? "✓" : "- "} At least one special character</p>
+                <p className={passwordCriteria.alphanumeric ? "text-green-500" : "text-gray-500"}>{passwordCriteria.alphanumeric ? "✓" : "- "} Alphanumeric characters</p>
+              </div>
+            )}
             <input
               id="confirmPassword"
               name="confirmPassword"
