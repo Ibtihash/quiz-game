@@ -1,4 +1,3 @@
-console.log('---- server.js reloaded ----');
 // server/server.js
 import 'dotenv/config';
 import express from 'express';
@@ -64,31 +63,23 @@ app.use((err, req, res, next) => {
 });
 
 // Start server with port fallback
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 4000;
-let currentPort = DEFAULT_PORT;
-
-function startServer(port) {
-  const server = app.listen(port, () => {
-    console.log(`🚀 Server running on http://localhost:${port}`);
-  });
-
-  server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.warn(`⚠️ Port ${port} in use, trying ${port + 1}...`);
-      startServer(port + 1);
-    } else {
-      console.error('❌ Server error:', err);
-      process.exit(1);
-    }
-  });
-}
-
-// Connect to DB, then start server
+// Connect to DB (Vercel will handle server startup)
 connectDB()
   .then(() => {
-    startServer(currentPort);
+    console.log('✅ MongoDB connected successfully.');
   })
   .catch((err) => {
     console.error('❌ MongoDB connection failed:', err.message);
     process.exit(1);
   });
+
+export default app;
+
+const PORT = process.env.PORT || 4000;
+
+// Only start listening if the file is run directly
+if (process.env.NODE_ENV !== 'test') { // Avoid EADDRINUSE error during tests
+  app.listen(PORT, () => {
+    console.log(`✅ Server is running on port ${PORT}`);
+  });
+}
