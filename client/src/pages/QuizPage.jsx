@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { BASE_URL } from "../api";
+const API_BASE =  BASE_URL
 
 function shuffle(arr) {
   return arr.slice().sort(() => Math.random() - 0.5);

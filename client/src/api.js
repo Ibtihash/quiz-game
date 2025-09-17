@@ -1,4 +1,4 @@
-const BASE_URL = "https://quiz-game-uywu.vercel.app";
+export const BASE_URL = "https://quiz-game-uywu.vercel.app";
 
 const API = {
   async getQuestions(params = {}) {

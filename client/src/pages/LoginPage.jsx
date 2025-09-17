@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { BASE_URL } from "../api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_BASE = BASE_URL
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });

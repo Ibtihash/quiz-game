@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { BASE_URL } from "../api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_BASE = BASE_URL
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");

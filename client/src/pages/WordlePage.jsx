@@ -4,7 +4,8 @@ const GUESS_LENGTH = 5;
 const MAX_GUESSES = 6;
 const MAX_HINTS = 2;
 import { WORDS as ALL_WORDS } from "../wordlist";
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { BASE_URL } from "../api";
+const API_BASE = BASE_URL
 
 // Helper to get a new solution word
 const getNewSolution = (words) =>
