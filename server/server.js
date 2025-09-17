@@ -1,10 +1,11 @@
 // server/server.js
 import 'dotenv/config';
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
+
 
 // Import DB connection
 import { connectDB } from './db.js';
@@ -28,8 +29,10 @@ const app = express();
 
 // ✅ Fix: Proper CORS fallback
 const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(',')
-  : '*';
+? process.env.CORS_ORIGIN.split(',')
+: '*';
+
+const __dirname = path.resolve();
 
 app.use(cors({ origin: allowedOrigins }));
 app.use(helmet());
@@ -47,6 +50,14 @@ app.use('/api/hangman-scores', hangmanScoresRoute);
 console.log('Scramble scores route loaded');
 app.use('/api/scramble-scores', scrambleScoresRoute);
 app.use('/api/game2048-scores', game2048ScoresRoute);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  });
+}
 
 // Test route
 app.get('/api/testing123', async (req, res) => {
