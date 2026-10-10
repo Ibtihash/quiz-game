@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { API as api } from "../api";
+import GameInstructions from "../components/GameInstructions";
 
 // Word pool (can be expanded or fetched via API)
 const WORDS = ["CODE", "AI", "REACT", "JSX", "QUIZ", "NODE", "APP", "JAVA", "HTML", "CSS"];
@@ -22,6 +23,7 @@ export default function CrosswordPage() {
   const [timeLeft, setTimeLeft] = useState(SETTINGS[difficulty].time);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   // Refs for inputs
   const inputRefs = useRef([]);
@@ -252,7 +254,16 @@ export default function CrosswordPage() {
 
   return (
     <div className="container-pro text-center p-6">
-      <h1 className="text-3xl font-bold mb-6">Crossword Puzzle</h1>
+      <div className="flex items-center justify-center gap-4 mb-6">
+        <h1 className="text-3xl font-bold">Crossword Puzzle</h1>
+        <button
+          type="button"
+          onClick={() => setShowInstructions(true)}
+          className="px-3 py-2 border rounded-lg text-sm border-green-600 text-green-700 hover:bg-green-50"
+        >
+          Instructions
+        </button>
+      </div>
 
       <div className="flex justify-center items-center gap-6 mb-4">
         <select
@@ -323,6 +334,18 @@ export default function CrosswordPage() {
           🔄 New Game
         </button>
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="Crossword Puzzle"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Choose a difficulty to set the grid size and time limit.",
+            "Fill each open cell with one letter. Words can run horizontally or vertically.",
+            "Click Check Answers to mark correct letters and check your progress.",
+            "Use the available hints when you need help, then finish before the timer reaches zero.",
+          ]}
+        />
+      )}
     </div>
   );
 }

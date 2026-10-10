@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { API } from '../api';
+import GameInstructions from '../components/GameInstructions';
 
 const BOARD_SIZE = 20;
 const CELL_SIZE = 20; // in pixels
@@ -17,6 +18,7 @@ const SnakeGamePage = () => {
   const [fruitEatenCount, setFruitEatenCount] = useState(0);
   const [isHugeFruit, setIsHugeFruit] = useState(false);
   const [hasScoreBeenSubmitted, setHasScoreBeenSubmitted] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const username = localStorage.getItem('quiz_username');
 
@@ -205,7 +207,16 @@ const SnakeGamePage = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold text-center my-4">Snake Game</h1>
+      <div className="flex items-center gap-4 my-4">
+        <h1 className="text-3xl font-bold text-center">Snake Game</h1>
+        <button
+          type="button"
+          onClick={() => setShowInstructions(true)}
+          className="px-3 py-2 border rounded-lg text-sm border-green-600 text-green-700 hover:bg-green-50"
+        >
+          Instructions
+        </button>
+      </div>
       <div className="flex gap-4 mb-4">
         <div className="text-lg font-semibold">Score: {score}</div>
         <div className="text-lg font-semibold">High Score: {highScore}</div>
@@ -236,6 +247,18 @@ const SnakeGamePage = () => {
           <p className="text-xl">Your Score: {score}</p>
           <button onClick={resetGame} className="px-4 py-2 bg-blue-500 text-white rounded">Play Again</button>
         </div>
+      )}
+      {showInstructions && (
+        <GameInstructions
+          title="Snake Game"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Choose Easy, Medium, or Hard, then guide the snake to the fruit with the arrow keys.",
+            "Each normal fruit gives four points. Every fourth fruit becomes a large fruit worth ten points.",
+            "In Easy mode, leaving one side of the board makes the snake reappear on the opposite side.",
+            "In Medium and Hard modes, walls end the game. Hitting yourself ends every mode, and Hard mode also has obstacles.",
+          ]}
+        />
       )}
     </div>
   );

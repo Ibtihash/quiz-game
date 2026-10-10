@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { API as api } from '../api';
+import GameInstructions from '../components/GameInstructions';
 
 const wordList = [
   "react", "javascript", "hangman", "programming", "developer",
@@ -74,6 +75,7 @@ const HangmanPage = () => {
   const [wrongGuesses, setWrongGuesses] = useState(0);
   const maxWrongGuesses = 6;
   const [gameEnded, setGameEnded] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
   const username = localStorage.getItem('quiz_username'); // Get username
 
   const selectRandomWord = useCallback(() => {
@@ -144,7 +146,16 @@ const HangmanPage = () => {
         }
       }}
     >
-      <h1 className="text-5xl font-extrabold mb-8 text-gray-800 drop-shadow-lg">Hangman</h1>
+      <div className="flex items-center gap-4 mb-8">
+        <h1 className="text-5xl font-extrabold text-gray-800 drop-shadow-lg">Hangman</h1>
+        <button
+          type="button"
+          onClick={() => setShowInstructions(true)}
+          className="px-3 py-2 rounded-lg border border-blue-500 text-blue-700 hover:bg-blue-50"
+        >
+          Instructions
+        </button>
+      </div>
 
       <div className="bg-white rounded-xl shadow-2xl p-8 mb-8 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
         <div className="relative w-48 h-64 mb-6">
@@ -205,6 +216,18 @@ const HangmanPage = () => {
           </Link>
         </div>
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="Hangman"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Guess the hidden word by selecting letters from the keyboard or pressing letter keys.",
+            "Correct guesses reveal every matching position in the word.",
+            "You can make up to six wrong guesses before the game ends.",
+            "Win by revealing the complete word. Use Play Again to start a new word.",
+          ]}
+        />
+      )}
     </div>
   );
 };

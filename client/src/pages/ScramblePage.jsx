@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { API as api } from '../api';
+import GameInstructions from '../components/GameInstructions';
 
 const wordList = [
   "react", "javascript", "scramble", "programming", "developer",
@@ -19,6 +20,7 @@ const ScramblePage = () => {
   const [gameEnded, setGameEnded] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [showInstructions, setShowInstructions] = useState(false);
   const username = localStorage.getItem('quiz_username'); // Get username
 
   const scrambleWord = (wordToScramble) => {
@@ -77,7 +79,16 @@ const ScramblePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-100 to-orange-100 p-4 font-sans">
-      <h1 className="text-5xl font-extrabold mb-8 text-gray-800 drop-shadow-lg">Scramble</h1>
+      <div className="flex items-center gap-4 mb-8">
+        <h1 className="text-5xl font-extrabold text-gray-800 drop-shadow-lg">Scramble</h1>
+        <button
+          type="button"
+          onClick={() => setShowInstructions(true)}
+          className="px-3 py-2 rounded-lg border border-blue-500 text-blue-700 hover:bg-blue-50"
+        >
+          Instructions
+        </button>
+      </div>
 
       <div className="bg-white rounded-xl shadow-2xl p-8 mb-8 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
         <div className="text-4xl font-bold tracking-widest mb-8 text-center text-blue-700">
@@ -126,6 +137,18 @@ const ScramblePage = () => {
           </Link>
         </div>
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="Scramble"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Unscramble the displayed letters to find the hidden word.",
+            "Type your answer in the input box and press Submit.",
+            "A correct answer earns a score based on how quickly you solve it; an incorrect answer scores zero.",
+            "Use Play Again to receive a new scrambled word.",
+          ]}
+        />
+      )}
     </div>
   );
 };

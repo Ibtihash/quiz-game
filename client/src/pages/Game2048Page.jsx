@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { API } from "../api";
+import GameInstructions from "../components/GameInstructions";
 
 // Utility Functions
 const initialBoard = () => {
@@ -56,6 +57,7 @@ const Game2048Page = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const checkGameOver = useCallback((currentBoard) => {
     for (let r = 0; r < 4; r++) {
@@ -198,7 +200,16 @@ const Game2048Page = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
       {/* Removed <Header /> */}
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">2048 Game</h1>
+      <div className="flex items-center gap-4 mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">2048 Game</h1>
+        <button
+          type="button"
+          onClick={() => setShowInstructions(true)}
+          className="px-3 py-2 rounded-lg border border-blue-500 text-blue-700 hover:bg-blue-50"
+        >
+          Instructions
+        </button>
+      </div>
 
       <div className="flex flex-col items-center">
         <div className="flex justify-between w-full max-w-md mb-4">
@@ -227,6 +238,18 @@ const Game2048Page = () => {
         {gameWon && <div className="mt-4 text-3xl font-bold text-green-600">You Win!</div>}
         {gameOver && <div className="mt-4 text-3xl font-bold text-red-600">Game Over!</div>}
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="2048"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Use the arrow keys to slide every tile in that direction.",
+            "Matching tiles merge into one tile with their values added together. A new 2 or 4 tile appears after each valid move.",
+            "Your score increases by the value of each merged tile.",
+            "Reach the 2048 tile to win. The game ends when the board is full and no neighboring tiles can merge.",
+          ]}
+        />
+      )}
     </div>
   );
 };

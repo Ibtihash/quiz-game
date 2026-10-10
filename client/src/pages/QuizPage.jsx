@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../api";
+import GameInstructions from "../components/GameInstructions";
 const API_BASE =  BASE_URL
 
 function shuffle(arr) {
@@ -15,6 +16,7 @@ export default function QuizPage() {
   const [hintUsed, setHintUsed] = useState(false);
   const [options, setOptions] = useState([]);
   const [message, setMessage] = useState("");
+  const [showInstructions, setShowInstructions] = useState(false);
   const nav = useNavigate();
   const username = localStorage.getItem("quiz_username") || "Guest";
 
@@ -89,6 +91,16 @@ export default function QuizPage() {
   return (
     <div className="container mx-auto p-6">
       <div className="bg-white border border-[var(--border-color)] rounded-xl shadow p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">Quiz</h1>
+          <button
+            type="button"
+            onClick={() => setShowInstructions(true)}
+            className="px-3 py-2 border rounded-lg text-sm border-[var(--accent-green)] text-[var(--accent-green)] hover:bg-green-50"
+          >
+            Instructions
+          </button>
+        </div>
         <div className="flex justify-between mb-4">
           <div>
             <p className="text-sm text-[var(--text-muted)]">
@@ -133,15 +145,6 @@ export default function QuizPage() {
             >
               Use hint
             </button>
-            <button
-              className="px-3 py-2 border rounded-lg text-sm border-red-500 text-red-500 hover:bg-red-50"
-              onClick={() => {
-                localStorage.removeItem("quiz_username");
-                nav("/signup");
-              }}
-            >
-              Logout
-            </button>
           </div>
           <div className="flex gap-2">
             <button
@@ -163,6 +166,18 @@ export default function QuizPage() {
           Category: <strong>{q.category || "General"}</strong>
         </p>
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="Quiz"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Read each question and choose one answer.",
+            "Use the hint button once per question to reveal the first letter of the correct answer.",
+            "A correct answer increases your score by one point.",
+            "Use Finish & Submit to send your score to the leaderboard, or continue until all questions are answered.",
+          ]}
+        />
+      )}
     </div>
   );
 }

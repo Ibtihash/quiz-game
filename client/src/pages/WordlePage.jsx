@@ -5,6 +5,7 @@ const MAX_GUESSES = 6;
 const MAX_HINTS = 2;
 import { WORDS as ALL_WORDS } from "../wordlist";
 import { BASE_URL } from "../api";
+import GameInstructions from "../components/GameInstructions";
 const API_BASE = BASE_URL
 
 // Helper to get a new solution word
@@ -160,6 +161,7 @@ export default function WordlePage() {
   // Hint state
   const [hintsUsed, setHintsUsed] = useState(0);
   const [revealedLetters, setRevealedLetters] = useState([]); // Stores { letter: 'A', index: 0 }
+  const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
     const loadWords = () => {
@@ -356,7 +358,16 @@ export default function WordlePage() {
   if (loadingWords) {
     return (
       <div className="flex flex-col items-center justify-center p-4 max-w-md mx-auto h-96">
-        <h1 className="text-3xl font-bold mb-4">Wordle</h1>
+        <div className="flex items-center justify-between mb-4 w-full">
+          <h1 className="text-3xl font-bold">Wordle</h1>
+          <button
+            type="button"
+            onClick={() => setShowInstructions(true)}
+            className="px-3 py-2 border rounded-lg text-sm border-[var(--accent-green)] text-[var(--accent-green)] hover:bg-green-50"
+          >
+            Instructions
+          </button>
+        </div>
         <div className="flex items-center gap-2 text-lg">
           <span className="animate-spin border-4 border-[var(--accent-green)] border-t-transparent rounded-full w-6 h-6"></span>
           <span>Loading words...</span>
@@ -452,6 +463,18 @@ export default function WordlePage() {
           guessStatuses={guessStatuses}
         />
       </div>
+      {showInstructions && (
+        <GameInstructions
+          title="Wordle"
+          onClose={() => setShowInstructions(false)}
+          instructions={[
+            "Guess the hidden five-letter word in six attempts or fewer.",
+            "Type letters with your keyboard or use the on-screen keyboard, then press Enter.",
+            "Green means the letter is correct and in the correct position; yellow means it appears elsewhere; gray means it is not in the word.",
+            "You can use up to two hints per round. A hint reveals a letter position.",
+          ]}
+        />
+      )}
     </>
   );
 }
