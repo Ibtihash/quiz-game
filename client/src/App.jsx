@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
@@ -15,13 +11,7 @@ import HangmanPage from "./pages/HangmanPage";
 import ScramblePage from "./pages/ScramblePage";
 import Game2048Page from "./pages/Game2048Page";
 
-function RequireAuth({ children }) {
-  const username = localStorage.getItem("quiz_username");
-  return username ? children : <Navigate to="/signup" replace />;
-}
-
 function Layout() {
-  const username = localStorage.getItem("quiz_username");
   const [gamesOpen, setGamesOpen] = useState(false);
   const dropdownRef = useRef(null); // Create a ref for the dropdown
 
@@ -142,47 +132,11 @@ function Layout() {
             </Link>
           </nav>
 
-          {/* User Info */}
-          <div className="flex items-center gap-4">
-            {username && (
-              <span className="text-sm">
-                Signed in as <span className="font-semibold">{username}</span>
-              </span>
-            )}
-            {username && (
-              <button
-                onClick={() => {
-                  localStorage.removeItem("quiz_username");
-                  window.location.href = "/login";
-                }}
-                className="px-3 py-1 border border-white rounded-md text-sm hover:bg-white hover:text-[var(--accent-green)] transition"
-              >
-                Logout
-              </button>
-            )}
-          </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-6">
-        <Outlet />
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
-        <div className="flex justify-center items-center text-[var(--text-muted)] container mx-auto px-4">
-          <div>© 2025 Think & Play</div>
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-function NoHeaderLayout() {
-  return (
-    <div className="min-h-screen flex flex-col bg-[var(--accent-green)] text-[var(--text-dark)]">
-      <main className="flex-1">
         <Outlet />
       </main>
 
@@ -202,77 +156,21 @@ export default function App() {
       <Route path="*" element={<Layout />}>
         <Route
           index
-          element={
-            <RequireAuth>
-              <HomePage />
-            </RequireAuth>
-          }
+          element={<HomePage />}
         />
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="reset-password/:token" element={<ResetPasswordPage />} />
-        
-        <Route
-          path="quiz"
-          element={
-            <RequireAuth>
-              <QuizPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="wordle"
-          element={
-            <RequireAuth>
-              <WordlePage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="crossword"
-          element={
-            <RequireAuth>
-              <CrosswordPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="snake-game"
-          element={
-            <RequireAuth>
-              <SnakeGamePage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="hangman"
-          element={
-            <RequireAuth>
-              <HangmanPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="scramble"
-          element={
-            <RequireAuth>
-              <ScramblePage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="2048"
-          element={
-            <RequireAuth>
-              <Game2048Page />
-            </RequireAuth>
-          }
-        />
+        <Route path="quiz" element={<QuizPage />} />
+        <Route path="wordle" element={<WordlePage />} />
+        <Route path="crossword" element={<CrosswordPage />} />
+        <Route path="snake-game" element={<SnakeGamePage />} />
+        <Route path="hangman" element={<HangmanPage />} />
+        <Route path="scramble" element={<ScramblePage />} />
+        <Route path="2048" element={<Game2048Page />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
+        <Route path="signup" element={<Navigate to="/" replace />} />
+        <Route path="login" element={<Navigate to="/" replace />} />
+        <Route path="forgot-password" element={<Navigate to="/" replace />} />
+        <Route path="reset-password/:token" element={<Navigate to="/" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-      <Route path="/" element={<NoHeaderLayout />}>
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="login" element={<LoginPage />} />
       </Route>
     </Routes>
   );
