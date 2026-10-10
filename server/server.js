@@ -27,17 +27,41 @@ import Game2048Score from './models/Game2048Score.js';
 // Setup
 const app = express();
 
-// ✅ Fix: Proper CORS fallback
-const allowedOrigins = process.env.CORS_ORIGIN
-? process.env.CORS_ORIGIN.split(',')
-: '*';
+const allowedOrigins = (process.env.CORS_ORIGIN || '*')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Origin is not allowed by CORS'));
+  },
+  optionsSuccessStatus: 204,
+};
 
 const __dirname = path.resolve();
 
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
+
+// Keep the health check independent from the database connection.
+app.get('/api/health', (req, res) => res.json({ ok: true }));
+
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database unavailable:', err.message);
+    res.status(503).json({ message: 'Database unavailable' });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -64,9 +88,6 @@ app.get('/api/testing123', async (req, res) => {
   res.json({ message: 'Game2048 testing route working!' });
 });
 
-// Health check
-app.get('/api/health', (req, res) => res.json({ ok: true }));
-
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -74,22 +95,12 @@ app.use((err, req, res, next) => {
 });
 
 // Start server with port fallback
-// Connect to DB (Vercel will handle server startup)
-connectDB()
-  .then(() => {
-    console.log('✅ MongoDB connected successfully.');
-  })
-  .catch((err) => {
-    console.error('❌ MongoDB connection failed:', err.message);
-    process.exit(1);
-  });
-
 export default app;
 
 const PORT = process.env.PORT || 4000;
 
 // Only start listening if the file is run directly
-if (process.env.NODE_ENV !== 'test') { // Avoid EADDRINUSE error during tests
+if (!process.env.VERCEL && process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`✅ Server is running on port ${PORT}`);
   });
