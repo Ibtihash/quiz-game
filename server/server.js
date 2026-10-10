@@ -27,8 +27,11 @@ import Game2048Score from './models/Game2048Score.js';
 // Setup
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '*')
-  .split(',')
+const allowedOrigins = [
+  ...(process.env.CORS_ORIGIN || '').split(','),
+  'https://thinkandplay.vercel.app',
+  'http://localhost:5173',
+]
   .map((origin) => origin.trim())
   .filter(Boolean);
 
@@ -37,7 +40,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    return callback(new Error('Origin is not allowed by CORS'));
+    return callback(null, false);
   },
   optionsSuccessStatus: 204,
 };
