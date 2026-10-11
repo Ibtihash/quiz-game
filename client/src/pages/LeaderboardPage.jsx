@@ -28,6 +28,7 @@ export default function LeaderboardPage() {
       else if (mode === "hangman") data = await API.getTopHangmanScores();
       else if (mode === "scramble") data = await API.getTopScrambleScores();
       else if (mode === "game2048") data = await API.getTopGame2048Scores();
+      else if (mode === "riddles") data = await API.getTopRiddlesScores();
 
       const sorted = (data || [])
         .slice()
@@ -72,6 +73,7 @@ export default function LeaderboardPage() {
     if (mode === "snake") return "Top Snake Players";
     if (mode === "hangman") return "Top Hangman Players";
     if (mode === "game2048") return "Top 2048 Players";
+    if (mode === "riddles") return "Top Riddle Solvers";
     return "Top Players";
   };
 
@@ -82,6 +84,7 @@ export default function LeaderboardPage() {
     if (mode === "hangman") return "Word";
     if (mode === "snake" || mode === "scramble") return "Score";
     if (mode === "game2048") return "Score";
+    if (mode === "riddles") return "Riddles Solved";
     return null;
   };
 
@@ -92,6 +95,7 @@ export default function LeaderboardPage() {
     if (mode === "hangman") return item.word;
     if (mode === "snake" || mode === "scramble") return item.score;
     if (mode === "game2048") return item.score;
+    if (mode === "riddles") return item.riddlesSolved;
     return null;
   };
 
@@ -104,7 +108,7 @@ export default function LeaderboardPage() {
 
       {/* Mode Switch */}
       <div className="flex gap-4 mb-4 justify-center">
-        {["quiz", "wordle", "crossword", "snake", "hangman", "scramble", "game2048"].map((m) => (
+        {["quiz", "wordle", "crossword", "snake", "hangman", "scramble", "game2048", "riddles"].map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}

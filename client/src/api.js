@@ -91,6 +91,18 @@ const API = {
     if (!res.ok) throw new Error('Failed to load 2048 leaderboard');
     return res.json();
   },
+
+  // Riddles Scores
+  async postRiddlesScore(payload) {
+    const res = await fetch(`${BASE_URL}/api/riddles-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('Failed to submit riddles score');
+    return res.json();
+  },
+  async getTopRiddlesScores(limit = 20) {
+    const res = await fetch(`${BASE_URL}/api/riddles-scores/top?limit=${limit}`);
+    if (!res.ok) throw new Error('Failed to load riddles leaderboard');
+    return res.json();
+  },
 };
 
 export { API };

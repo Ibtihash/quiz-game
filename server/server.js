@@ -20,6 +20,7 @@ import snakeScoresRoute from './routes/snakeScores.js';
 import hangmanScoresRoute from './routes/hangmanScores.js';
 import scrambleScoresRoute from './routes/scrambleScores.js';
 import game2048ScoresRoute from './routes/game2048Scores.js'; // Added for Game2048
+import riddlesScoresRoute from './routes/riddlesScores.js';
 
 // Import models (if needed)
 import Game2048Score from './models/Game2048Score.js';
@@ -77,6 +78,7 @@ app.use('/api/hangman-scores', hangmanScoresRoute);
 console.log('Scramble scores route loaded');
 app.use('/api/scramble-scores', scrambleScoresRoute);
 app.use('/api/game2048-scores', game2048ScoresRoute);
+app.use('/api/riddles-scores', riddlesScoresRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/dist")));

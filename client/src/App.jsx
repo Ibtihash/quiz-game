@@ -10,6 +10,7 @@ import SnakeGamePage from "./pages/SnakeGamePage";
 import HangmanPage from "./pages/HangmanPage";
 import ScramblePage from "./pages/ScramblePage";
 import Game2048Page from "./pages/Game2048Page";
+import RiddlesPage from "./pages/RiddlesPage";
 
 function Layout() {
   const [gamesOpen, setGamesOpen] = useState(false);
@@ -119,6 +120,13 @@ function Layout() {
                     >
                       🔢 Play 2048
                     </Link>
+                    <Link
+                      to="/riddles"
+                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      onClick={() => setGamesOpen(false)}
+                    >
+                      💡 Play Riddles
+                    </Link>
                   </div>
                 </div>
               )}
@@ -165,6 +173,7 @@ export default function App() {
         <Route path="hangman" element={<HangmanPage />} />
         <Route path="scramble" element={<ScramblePage />} />
         <Route path="2048" element={<Game2048Page />} />
+        <Route path="riddles" element={<RiddlesPage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
         <Route path="signup" element={<Navigate to="/" replace />} />
         <Route path="login" element={<Navigate to="/" replace />} />
