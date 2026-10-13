@@ -137,6 +137,9 @@ const Game2048Page = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      const isArrowKey = event.key.startsWith("Arrow");
+      if (isArrowKey) event.preventDefault();
+
       switch (event.key) {
         case "ArrowUp":
           move("up");
