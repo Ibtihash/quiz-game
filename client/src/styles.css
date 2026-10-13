@@ -4,31 +4,38 @@
 
 /* Color Theme Variables */
 :root {
-  --header-bg: #27ae60;       /* Green Header */
-  --page-bg: #ffffff;         /* White Page */
-  --card-bg: #ffffff;         /* White Cards */
-  --text-dark: #34495e;       /* Dark Text */
-  --text-light: #ffffff;      /* White Text */
-  --text-muted: #7f8c8d;      /* Grey Subtext */
-  --border-color: #e5e7eb;    /* Light Grey Borders */
-  --accent-yellow: #f39c12;   /* Yellow/Orange for Upgrade */
-  --accent-green: #27ae60;    /* Green Accent */
+  --header-bg: #102a43;
+  --page-bg: #f4f7f8;
+  --card-bg: #ffffff;
+  --text-dark: #183b56;
+  --text-light: #ffffff;
+  --text-muted: #627d98;
+  --border-color: #d9e2ec;
+  --accent-yellow: #f2b134;
+  --accent-green: #168aad;
+  --accent-deep: #102a43;
+  --accent-soft: #e4f2f4;
 }
 
 @layer base {
   body {
-    @apply bg-[var(--page-bg)] text-[var(--text-dark)] font-sans antialiased;
+    @apply bg-[var(--page-bg)] text-[var(--text-dark)] antialiased;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  button, input, select {
+    font: inherit;
   }
 }
 
 /* ================= HEADER ================= */
 @layer components {
   .app-header {
-    @apply bg-[var(--header-bg)] text-[var(--text-light)] shadow-md;
+    @apply sticky top-0 z-40 border-b border-white/10 bg-[var(--header-bg)] text-[var(--text-light)] shadow-lg;
   }
 
   .header-container {
-    @apply flex items-center justify-between px-6 py-3;
+    @apply mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6;
   }
 
   .header-left {
@@ -53,7 +60,7 @@
   }
 
   .dashboard-card {
-    @apply bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-6 shadow-sm transition hover:shadow-md flex flex-col justify-between;
+    @apply flex flex-col justify-between rounded-xl border border-[var(--border-color)] bg-[var(--card-bg)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg;
   }
 
   .dashboard-title {
@@ -65,7 +72,7 @@
   }
 
   .dashboard-btn {
-    @apply bg-[var(--accent-green)] text-white px-4 py-2 rounded-md font-semibold text-sm shadow hover:bg-green-700 self-start;
+    @apply self-start rounded-lg bg-[var(--accent-green)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--accent-deep)];
   }
 
   /* "How it works" full-width card */
@@ -99,5 +106,29 @@
   @apply bg-transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full;
+  @apply rounded-full bg-slate-400;
+}
+
+.brand-mark {
+  @apply h-11 w-11 rounded-xl object-cover shadow-sm ring-2 ring-white/20;
+}
+
+.brand-wordmark {
+  @apply text-lg font-bold tracking-tight text-white;
+}
+
+.brand-tagline {
+  @apply text-xs text-slate-300;
+}
+
+.site-nav-link {
+  @apply rounded-lg px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 hover:text-white;
+}
+
+.game-directory {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.game-tile {
+  @apply flex min-h-44 flex-col justify-between rounded-2xl border border-[var(--border-color)] bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[var(--accent-green)] hover:shadow-xl;
 }

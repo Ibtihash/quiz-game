@@ -33,25 +33,21 @@ function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
       <header className="app-header">
-        <div className="header-container flex justify-between items-center px-6 py-4 bg-[var(--accent-green)] text-white relative">
+        <div className="header-container relative">
           {/* Logo Section */}
           <div className="flex items-center gap-3">
-            <img
-              src="/think-and-play-logo.png"
-              alt="Think and Play logo"
-              className="h-10 w-10 rounded-lg object-cover"
-            />
+            <img src="/think-and-play-logo.png" alt="Think and Play logo" className="brand-mark" />
             <div>
-              <div className="font-semibold text-lg">Think & Play</div>
-              <div className="text-sm text-[var(--text-light)]/80">
+              <div className="brand-wordmark">Think & Play</div>
+              <div className="brand-tagline">
                 Where Fun Meets Brainpower.
               </div>
             </div>
           </div>
 
           {/* Navbar */}
-          <nav className="hidden md:flex items-center gap-6 relative">
-            <Link to="/" className="font-medium text-white/90 hover:text-white">
+          <nav className="flex items-center gap-1 sm:gap-2 relative">
+            <Link to="/" className="site-nav-link">
               Home
             </Link>
 
@@ -59,23 +55,23 @@ function Layout() {
             <div className="relative">
               <button
                 onClick={() => setGamesOpen(!gamesOpen)}
-                className="font-medium text-white/90 hover:text-white"
+                className="site-nav-link"
               >
                 Games ▾
               </button>
 
               {gamesOpen && (
                 <div
-                  className="absolute mt-2 w-44 rounded-lg bg-gray-800 shadow-lg z-50"
+                  className="absolute right-0 mt-2 w-52 rounded-xl border border-white/10 bg-[var(--header-bg)] p-1 shadow-2xl z-50"
                   ref={dropdownRef} // Add ref to the dropdown div
                 >
-                  <div className="px-3 py-2 text-gray-300 font-semibold border-b border-gray-700">
+                  <div className="border-b border-white/10 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">
                     Games
                   </div>
                   <div className="flex flex-col p-2 space-y-2">
                     <Link
                       to="/wordle"
-                      className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
+                      className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-white"
                       onClick={() => setGamesOpen(false)}
                     >
                       🎯 Play Wordle
@@ -136,7 +132,7 @@ function Layout() {
 
             <Link
               to="/leaderboard"
-              className="font-medium text-white/90 hover:text-white"
+              className="site-nav-link"
             >
               Leaderboard
             </Link>
@@ -146,7 +142,7 @@ function Layout() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container mx-auto px-4 py-6">
+      <main className="flex-1">
         <Outlet />
       </main>
 
