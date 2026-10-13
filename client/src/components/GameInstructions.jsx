@@ -12,20 +12,20 @@ export default function GameInstructions({ title, instructions, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-3 sm:p-4"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
       <section
-        className="w-full max-w-lg rounded-xl bg-white p-6 text-left shadow-2xl"
+        className="my-auto max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-5 text-left shadow-2xl sm:p-6"
         role="dialog"
         aria-modal="true"
         aria-labelledby="game-instructions-title"
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 id="game-instructions-title" className="text-2xl font-bold text-gray-800">
+          <h2 id="game-instructions-title" className="text-xl font-bold text-gray-800 sm:text-2xl">
             {title} Instructions
           </h2>
           <button

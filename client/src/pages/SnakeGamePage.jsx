@@ -234,7 +234,7 @@ const SnakeGamePage = () => {
       )}
 
       {gameState === 'Playing' && (
-        <div className="grid border-2 border-gray-400" style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)` }}>
+        <div className="snake-board grid max-w-[92vw] border-2 border-gray-400" style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)` }}>
           {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) =>
             renderCell(i % BOARD_SIZE, Math.floor(i / BOARD_SIZE))
           )}

@@ -107,12 +107,12 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Mode Switch */}
-      <div className="flex gap-4 mb-4 justify-center">
+      <div className="mb-4 flex flex-wrap justify-center gap-2">
         {["quiz", "wordle", "crossword", "snake", "hangman", "scramble", "game2048", "riddles"].map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}
-            className={`px-4 py-2 rounded ${
+            className={`rounded-lg px-3 py-2 text-sm ${
               mode === m ? "bg-green-600 text-white" : "bg-gray-200"
             }`}
           >
@@ -121,7 +121,7 @@ export default function LeaderboardPage() {
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="font-medium">{getModeTitle()}</div>
@@ -130,7 +130,7 @@ export default function LeaderboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="text-xs text-gray-400">
               Updated: {new Date().toLocaleString()}
             </div>

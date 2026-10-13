@@ -132,3 +132,20 @@
 .game-tile {
   @apply flex min-h-44 flex-col justify-between rounded-2xl border border-[var(--border-color)] bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[var(--accent-green)] hover:shadow-xl;
 }
+
+.snake-board > div {
+  width: min(4.5vw, 20px) !important;
+  height: min(4.5vw, 20px) !important;
+}
+
+@media (max-width: 640px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .site-nav-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.75rem;
+  }
+}

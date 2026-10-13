@@ -53,8 +53,6 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full border-[28px] border-cyan-400/10" aria-hidden="true" />
-        <div className="absolute -bottom-36 right-24 h-72 w-72 rounded-full border-[28px] border-[var(--accent-yellow)]/10" aria-hidden="true" />
       </section>
 
       <section className="mt-10">

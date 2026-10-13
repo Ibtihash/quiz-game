@@ -249,9 +249,9 @@ export default function CrosswordPage() {
   };
 
   return (
-    <div className="container-pro text-center p-6">
-      <div className="flex items-center justify-center gap-4 mb-6">
-        <h1 className="text-3xl font-bold">Crossword Puzzle</h1>
+    <div className="container-pro w-full overflow-x-hidden p-4 text-center sm:p-6">
+      <div className="mb-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <h1 className="text-2xl font-bold sm:text-3xl">Crossword Puzzle</h1>
         <button
           type="button"
           onClick={() => setShowInstructions(true)}
@@ -261,7 +261,7 @@ export default function CrosswordPage() {
         </button>
       </div>
 
-      <div className="flex justify-center items-center gap-6 mb-4">
+      <div className="mb-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
         <select
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
@@ -280,7 +280,7 @@ export default function CrosswordPage() {
             {row.map((cell, cIndex) => (
               <div
                 key={cIndex}
-                className={`w-12 h-12 border border-gray-400 flex items-center justify-center ${
+                  className={`h-[clamp(2.25rem,11vw,3rem)] w-[clamp(2.25rem,11vw,3rem)] border border-gray-400 flex items-center justify-center ${
                   cell === 0 ? "bg-gray-800" : colors[rIndex][cIndex] || "bg-white"
                 }`}
               >

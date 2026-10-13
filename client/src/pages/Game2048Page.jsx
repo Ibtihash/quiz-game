@@ -198,10 +198,10 @@ const Game2048Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center overflow-x-hidden px-3 py-6 sm:px-4 sm:py-8">
       {/* Removed <Header /> */}
-      <div className="flex items-center gap-4 mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">2048 Game</h1>
+      <div className="mb-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl">2048 Game</h1>
         <button
           type="button"
           onClick={() => setShowInstructions(true)}
@@ -212,7 +212,7 @@ const Game2048Page = () => {
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="flex justify-between w-full max-w-md mb-4">
+        <div className="mb-4 flex w-full max-w-md items-center justify-between gap-3">
           <div className="text-xl font-bold">Score: {score}</div>
           <button
             onClick={resetGame}
@@ -222,12 +222,12 @@ const Game2048Page = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 p-4 bg-gray-400 rounded-lg shadow-lg">
+        <div className="grid grid-cols-4 gap-1 rounded-lg bg-gray-400 p-2 shadow-lg sm:gap-2 sm:p-4">
           {board.map((row, rowIndex) =>
             row.map((tile, colIndex) => (
               <div
                 key={`${rowIndex}-${colIndex}`}
-                className={`w-20 h-20 flex items-center justify-center rounded-md text-3xl font-bold text-white ${getTileColor(tile)}`}
+                className={`flex h-[clamp(3.75rem,19vw,5rem)] w-[clamp(3.75rem,19vw,5rem)] items-center justify-center rounded-md text-2xl font-bold text-white sm:text-3xl ${getTileColor(tile)}`}
               >
                 {tile !== 0 ? tile : ""}
               </div>

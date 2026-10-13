@@ -54,7 +54,7 @@ function Tile({ letter, status, animation = "" }) {
 
   return (
     <div
-      className={`w-14 h-14 border-2 flex items-center justify-center text-2xl font-bold uppercase transition-all duration-300 transform ${statusClass} ${animation}`}
+      className={`h-11 w-11 border-2 flex items-center justify-center text-xl font-bold uppercase transition-all duration-300 transform sm:h-14 sm:w-14 sm:text-2xl ${statusClass} ${animation}`}
     >
       {letter}
     </div>
@@ -117,7 +117,7 @@ function Keyboard({ onKey, onEnter, onDelete, guessStatuses }) {
   return (
     <div className="flex flex-col items-center gap-2 mt-6 w-full">
       {keys.map((row, i) => (
-        <div key={i} className="flex justify-center gap-1.5 w-full">
+        <div key={i} className="flex w-full justify-center gap-1 sm:gap-1.5">
           {row.map((key) => {
             const status = guessStatuses[key];
             const statusClass = {
@@ -133,7 +133,7 @@ function Keyboard({ onKey, onEnter, onDelete, guessStatuses }) {
                 key={key}
                 onClick={() => handleClick(key)}
                 style={style}
-                className={`h-14 rounded-md font-bold uppercase text-sm flex items-center justify-center transition-all duration-200 ${status ? statusClass : "bg-gray-300 hover:bg-gray-400"} shadow-md`}
+                className={`h-10 rounded-md text-xs font-bold uppercase flex items-center justify-center transition-all duration-200 sm:h-14 sm:text-sm ${status ? statusClass : "bg-gray-300 hover:bg-gray-400"} shadow-md`}
               >
                 {key === "DELETE" ? "⌫" : key}
               </button>
