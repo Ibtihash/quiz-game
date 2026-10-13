@@ -47,8 +47,10 @@ const RIDDLES = [
 ];
 
 const normalize = (value) => value.trim().toLowerCase().replace(/[^a-z]/g, "");
+const shuffle = (items) => items.slice().sort(() => Math.random() - 0.5);
 
 export default function RiddlesPage() {
+  const [riddles, setRiddles] = useState(() => shuffle(RIDDLES));
   const [riddleIndex, setRiddleIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [score, setScore] = useState(0);
@@ -59,7 +61,7 @@ export default function RiddlesPage() {
   const [showInstructions, setShowInstructions] = useState(false);
   const [finished, setFinished] = useState(false);
 
-  const riddle = RIDDLES[riddleIndex];
+  const riddle = riddles[riddleIndex];
 
   const submitAnswer = (event) => {
     event.preventDefault();
@@ -78,7 +80,7 @@ export default function RiddlesPage() {
   };
 
   const nextRiddle = async () => {
-    if (riddleIndex === RIDDLES.length - 1) {
+    if (riddleIndex === riddles.length - 1) {
       try {
         await API.postRiddlesScore({
           username: localStorage.getItem("quiz_username") || "Guest",
@@ -99,6 +101,7 @@ export default function RiddlesPage() {
   };
 
   const resetGame = () => {
+    setRiddles(shuffle(RIDDLES));
     setRiddleIndex(0);
     setAnswer("");
     setScore(0);
@@ -144,7 +147,7 @@ export default function RiddlesPage() {
         ) : (
           <>
             <div className="mb-6 flex justify-between text-sm text-gray-600">
-              <span>Riddle {riddleIndex + 1} / {RIDDLES.length}</span>
+              <span>Riddle {riddleIndex + 1} / {riddles.length}</span>
               <span>Score: <strong>{score}</strong> | Streak: <strong>{streak}</strong></span>
             </div>
             <h2 className="text-center text-2xl font-semibold text-gray-800">{riddle.question}</h2>
@@ -187,7 +190,7 @@ export default function RiddlesPage() {
                   onClick={nextRiddle}
                   className="mt-4 rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
                 >
-                  {riddleIndex === RIDDLES.length - 1 ? "Finish Round" : "Next Riddle"}
+                  {riddleIndex === riddles.length - 1 ? "Finish Round" : "Next Riddle"}
                 </button>
               </div>
             )}

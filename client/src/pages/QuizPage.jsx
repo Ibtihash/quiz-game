@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../api";
+import { API, BASE_URL } from "../api";
 import GameInstructions from "../components/GameInstructions";
 const API_BASE =  BASE_URL
 
@@ -78,13 +78,7 @@ export default function QuizPage() {
   };
 
   const finish = async () => {
-    try {
-      await fetch(`${API_BASE}/api/quiz-scores`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, score, total: questions.length }),
-      });
-    } catch {}
+    await API.postQuizScore({ username, score, total: questions.length });
     nav("/leaderboard");
   };
 

@@ -1,5 +1,30 @@
 export const BASE_URL = "https://quiz-game-uywu.vercel.app";
 
+// Scores intentionally live only in this browser session. A full refresh clears this module state.
+const temporaryScores = {
+  quiz: [],
+  wordle: [],
+  crossword: [],
+  snake: [],
+  hangman: [],
+  scramble: [],
+  game2048: [],
+  riddles: [],
+};
+
+const saveTemporaryScore = (mode, payload) => {
+  const entry = {
+    ...payload,
+    _id: `${mode}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    createdAt: new Date().toISOString(),
+  };
+  temporaryScores[mode].push(entry);
+  return entry;
+};
+
+const getTemporaryScores = (mode, limit) =>
+  temporaryScores[mode].slice(-limit).reverse();
+
 const API = {
   async getQuestions(params = {}) {
     const q = new URLSearchParams(params).toString();
@@ -9,100 +34,36 @@ const API = {
   },
 
   // Quiz Scores
-  async postQuizScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/quiz-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit quiz score');
-    return res.json();
-  },
-  async getTopQuizScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/quiz-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load quiz leaderboard');
-    return res.json();
-  },
+  async postQuizScore(payload) { return saveTemporaryScore('quiz', payload); },
+  async getTopQuizScores(limit = 20) { return getTemporaryScores('quiz', limit); },
 
   // Wordle Scores
-  async postWordleScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/wordle-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit wordle score');
-    return res.json();
-  },
-  async getTopWordleScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/wordle-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load wordle leaderboard');
-    return res.json();
-  },
+  async postWordleScore(payload) { return saveTemporaryScore('wordle', payload); },
+  async getTopWordleScores(limit = 20) { return getTemporaryScores('wordle', limit); },
 
   // Crossword Scores
-  async postCrosswordScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/crossword-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit crossword score');
-    return res.json();
-  },
-  async getTopCrosswordScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/crossword-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load crossword leaderboard');
-    return res.json();
-  },
+  async postCrosswordScore(payload) { return saveTemporaryScore('crossword', payload); },
+  async getTopCrosswordScores(limit = 20) { return getTemporaryScores('crossword', limit); },
 
   // Snake Scores
-  async postSnakeScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/snake-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit snake score');
-    return res.json();
-  },
-  async getTopSnakeScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/snake-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load snake leaderboard');
-    return res.json();
-  },
+  async postSnakeScore(payload) { return saveTemporaryScore('snake', payload); },
+  async getTopSnakeScores(limit = 20) { return getTemporaryScores('snake', limit); },
 
   // Hangman Scores
-  async postHangmanScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/hangman-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit hangman score');
-    return res.json();
-  },
-  async getTopHangmanScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/hangman-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load hangman leaderboard');
-    return res.json();
-  },
+  async postHangmanScore(payload) { return saveTemporaryScore('hangman', payload); },
+  async getTopHangmanScores(limit = 20) { return getTemporaryScores('hangman', limit); },
 
   // Scramble Scores
-  async postScrambleScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/scramble-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit scramble score');
-    return res.json();
-  },
-  async getTopScrambleScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/scramble-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load scramble leaderboard');
-    return res.json();
-  },
+  async postScrambleScore(payload) { return saveTemporaryScore('scramble', payload); },
+  async getTopScrambleScores(limit = 20) { return getTemporaryScores('scramble', limit); },
 
   // 2048 Scores
-  async postGame2048Score(payload) {
-    const res = await fetch(`${BASE_URL}/api/game2048-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit 2048 score');
-    return res.json();
-  },
-  async getTopGame2048Scores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/game2048-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load 2048 leaderboard');
-    return res.json();
-  },
+  async postGame2048Score(payload) { return saveTemporaryScore('game2048', payload); },
+  async getTopGame2048Scores(limit = 20) { return getTemporaryScores('game2048', limit); },
 
   // Riddles Scores
-  async postRiddlesScore(payload) {
-    const res = await fetch(`${BASE_URL}/api/riddles-scores`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error('Failed to submit riddles score');
-    return res.json();
-  },
-  async getTopRiddlesScores(limit = 20) {
-    const res = await fetch(`${BASE_URL}/api/riddles-scores/top?limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to load riddles leaderboard');
-    return res.json();
-  },
+  async postRiddlesScore(payload) { return saveTemporaryScore('riddles', payload); },
+  async getTopRiddlesScores(limit = 20) { return getTemporaryScores('riddles', limit); },
 };
 
 export { API };

@@ -201,13 +201,9 @@ export default function CrosswordPage() {
 
   // Save score
   const saveScore = async (score, timeTaken) => {
-    const username = localStorage.getItem("username");
-    if (!username) {
-      alert("You must be logged in to save your score.");
-      return;
-    }
+    const username = localStorage.getItem("quiz_username") || "Guest";
     try {
-      await api.post("/crossword-scores", {
+      await api.postCrosswordScore({
         username,
         score,
         timeTaken,

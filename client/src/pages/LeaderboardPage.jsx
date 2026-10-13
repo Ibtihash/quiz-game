@@ -15,7 +15,7 @@ export default function LeaderboardPage() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("quiz"); // "quiz", "wordle", "crossword", "snake", "hangman", "scramble", or "game2048"
+  const [mode, setMode] = useState("quiz");
 
   const fetchLeaderboard = async () => {
     setLoading(true);
@@ -126,9 +126,7 @@ export default function LeaderboardPage() {
           <div>
             <div className="font-medium">{getModeTitle()}</div>
             <div className="text-sm text-gray-500">
-              {mode === "hangman"
-                ? "Sorted by fewest wrong guesses — latest entries first"
-                : "Sorted by highest score — latest entries first"}
+              Scores are temporary and are cleared when the page is refreshed.
             </div>
           </div>
 

@@ -36,9 +36,11 @@ function Layout() {
         <div className="header-container flex justify-between items-center px-6 py-4 bg-[var(--accent-green)] text-white relative">
           {/* Logo Section */}
           <div className="flex items-center gap-3">
-            <div className="bg-white text-[var(--accent-green)] w-10 h-10 rounded-lg flex items-center justify-center font-bold">
-              T&P
-            </div>
+            <img
+              src="/think-and-play-logo.png"
+              alt="Think and Play logo"
+              className="h-10 w-10 rounded-lg object-cover"
+            />
             <div>
               <div className="font-semibold text-lg">Think & Play</div>
               <div className="text-sm text-[var(--text-light)]/80">

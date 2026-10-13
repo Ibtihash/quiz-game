@@ -4,9 +4,8 @@ const GUESS_LENGTH = 5;
 const MAX_GUESSES = 6;
 const MAX_HINTS = 2;
 import { WORDS as ALL_WORDS } from "../wordlist";
-import { BASE_URL } from "../api";
+import { API } from "../api";
 import GameInstructions from "../components/GameInstructions";
-const API_BASE = BASE_URL
 
 // Helper to get a new solution word
 const getNewSolution = (words) =>
@@ -218,19 +217,8 @@ export default function WordlePage() {
     };
 
     try {
-        const response = await fetch(`${API_BASE}/api/wordle-scores`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(scoreData),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Failed to send Wordle score:", errorData.error);
-            setMessage("Failed to save score.");
-        } else {
-            setMessage("Score saved successfully!");
-        }
+        await API.postWordleScore(scoreData);
+        setMessage("Score saved for this session!");
     } catch (error) {
         console.error("Network error sending Wordle score:", error);
         setMessage("Network error saving score.");
