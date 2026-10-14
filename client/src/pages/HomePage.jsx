@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const games = [
-  { to: "/quiz", icon: "QZ", title: "Take a Quiz", text: "Test your knowledge across fresh questions.", tone: "blue" },
-  { to: "/wordle", icon: "WL", title: "Play Wordle", text: "Find the five-letter word in six tries.", tone: "green" },
-  { to: "/crossword", icon: "CW", title: "Crossword Puzzle", text: "Fill the grid before the timer runs out.", tone: "violet" },
-  { to: "/snake-game", icon: "SN", title: "Play Snake", text: "Guide the snake, collect fruit, beat your run.", tone: "red" },
-  { to: "/hangman", icon: "HM", title: "Play Hangman", text: "Reveal the word before your guesses run out.", tone: "amber" },
-  { to: "/scramble", icon: "SC", title: "Play Scramble", text: "Unscramble the word as quickly as you can.", tone: "orange" },
-  { to: "/2048", icon: "2048", title: "Play 2048", text: "Merge matching tiles and reach 2048.", tone: "cyan" },
-  { to: "/riddles", icon: "RD", title: "Play Riddles", text: "Solve clever puzzles and build a streak.", tone: "yellow" },
+  { to: "/quiz", icon: "?", title: "Take a Quiz", text: "Test your knowledge across fresh questions.", tone: "blue" },
+  { to: "/wordle", icon: "▦", title: "Play Wordle", text: "Find the five-letter word in six tries.", tone: "green" },
+  { to: "/crossword", icon: "⊞", title: "Crossword Puzzle", text: "Fill the grid before the timer runs out.", tone: "violet" },
+  { to: "/snake-game", icon: "⌁", title: "Play Snake", text: "Guide the snake, collect fruit, beat your run.", tone: "red" },
+  { to: "/hangman", icon: "♙", title: "Play Hangman", text: "Reveal the word before your guesses run out.", tone: "amber" },
+  { to: "/scramble", icon: "↔", title: "Play Scramble", text: "Unscramble the word as quickly as you can.", tone: "orange" },
+  { to: "/2048", icon: "▦", title: "Play 2048", text: "Merge matching tiles and reach 2048.", tone: "cyan" },
+  { to: "/riddles", icon: "?", title: "Play Riddles", text: "Solve clever puzzles and build a streak.", tone: "yellow" },
 ];
 
 const toneClasses = {
@@ -67,7 +67,7 @@ export default function HomePage() {
           {games.map((game) => (
             <Link key={game.to} to={game.to} className="game-tile group">
               <div className="flex items-start justify-between gap-4">
-                <span className={`grid h-12 w-12 place-items-center rounded-xl text-sm font-extrabold tracking-tight ring-1 transition group-hover:scale-105 ${game.icon === "2048" ? "text-[0.65rem]" : ""} ${toneClasses[game.tone]}`}>
+                <span className={`game-icon grid h-12 w-12 place-items-center rounded-xl text-2xl font-bold tracking-tight ring-1 transition group-hover:scale-105 ${toneClasses[game.tone]}`}>
                   {game.icon}
                 </span>
                 <span className="text-xl text-slate-300 transition group-hover:translate-x-1 group-hover:text-[var(--accent-green)]">→</span>
