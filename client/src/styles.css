@@ -133,6 +133,10 @@
   @apply flex min-h-44 flex-col justify-between rounded-2xl border border-[var(--border-color)] bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[var(--accent-green)] hover:shadow-xl;
 }
 
+.feature-mark {
+  @apply grid h-10 w-10 place-items-center rounded-lg bg-[var(--accent-soft)] text-xs font-extrabold tracking-widest text-[var(--accent-green)];
+}
+
 .snake-board > div {
   width: min(4.5vw, 20px) !important;
   height: min(4.5vw, 20px) !important;

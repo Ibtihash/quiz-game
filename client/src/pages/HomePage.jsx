@@ -2,25 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const games = [
-  { to: "/quiz", icon: "🧠", title: "Take a Quiz", text: "Test your knowledge across fresh questions.", tone: "blue" },
-  { to: "/wordle", icon: "📝", title: "Play Wordle", text: "Find the five-letter word in six tries.", tone: "green" },
-  { to: "/crossword", icon: "🧩", title: "Crossword Puzzle", text: "Fill the grid before the timer runs out.", tone: "violet" },
-  { to: "/snake-game", icon: "🐍", title: "Play Snake", text: "Guide the snake, collect fruit, beat your run.", tone: "red" },
-  { to: "/hangman", icon: "🪢", title: "Play Hangman", text: "Reveal the word before your guesses run out.", tone: "amber" },
-  { to: "/scramble", icon: "🔄", title: "Play Scramble", text: "Unscramble the word as quickly as you can.", tone: "orange" },
-  { to: "/2048", icon: "🔢", title: "Play 2048", text: "Merge matching tiles and reach 2048.", tone: "cyan" },
-  { to: "/riddles", icon: "💡", title: "Play Riddles", text: "Solve clever puzzles and build a streak.", tone: "yellow" },
+  { to: "/quiz", icon: "QZ", title: "Take a Quiz", text: "Test your knowledge across fresh questions.", tone: "blue" },
+  { to: "/wordle", icon: "WL", title: "Play Wordle", text: "Find the five-letter word in six tries.", tone: "green" },
+  { to: "/crossword", icon: "CW", title: "Crossword Puzzle", text: "Fill the grid before the timer runs out.", tone: "violet" },
+  { to: "/snake-game", icon: "SN", title: "Play Snake", text: "Guide the snake, collect fruit, beat your run.", tone: "red" },
+  { to: "/hangman", icon: "HM", title: "Play Hangman", text: "Reveal the word before your guesses run out.", tone: "amber" },
+  { to: "/scramble", icon: "SC", title: "Play Scramble", text: "Unscramble the word as quickly as you can.", tone: "orange" },
+  { to: "/2048", icon: "2048", title: "Play 2048", text: "Merge matching tiles and reach 2048.", tone: "cyan" },
+  { to: "/riddles", icon: "RD", title: "Play Riddles", text: "Solve clever puzzles and build a streak.", tone: "yellow" },
 ];
 
 const toneClasses = {
-  blue: "bg-blue-50",
-  green: "bg-green-50",
-  violet: "bg-violet-50",
-  red: "bg-red-50",
-  amber: "bg-amber-50",
-  orange: "bg-orange-50",
-  cyan: "bg-cyan-50",
-  yellow: "bg-yellow-50",
+  blue: "bg-blue-50 text-blue-700 ring-blue-100",
+  green: "bg-green-50 text-green-700 ring-green-100",
+  violet: "bg-violet-50 text-violet-700 ring-violet-100",
+  red: "bg-red-50 text-red-700 ring-red-100",
+  amber: "bg-amber-50 text-amber-700 ring-amber-100",
+  orange: "bg-orange-50 text-orange-700 ring-orange-100",
+  cyan: "bg-cyan-50 text-cyan-700 ring-cyan-100",
+  yellow: "bg-yellow-50 text-yellow-700 ring-yellow-100",
 };
 
 export default function HomePage() {
@@ -67,7 +67,7 @@ export default function HomePage() {
           {games.map((game) => (
             <Link key={game.to} to={game.to} className="game-tile group">
               <div className="flex items-start justify-between gap-4">
-                <span className={`grid h-12 w-12 place-items-center rounded-xl text-3xl transition group-hover:scale-105 ${toneClasses[game.tone]}`}>
+                <span className={`grid h-12 w-12 place-items-center rounded-xl text-sm font-extrabold tracking-tight ring-1 transition group-hover:scale-105 ${game.icon === "2048" ? "text-[0.65rem]" : ""} ${toneClasses[game.tone]}`}>
                   {game.icon}
                 </span>
                 <span className="text-xl text-slate-300 transition group-hover:translate-x-1 group-hover:text-[var(--accent-green)]">→</span>
@@ -83,17 +83,17 @@ export default function HomePage() {
 
       <section className="mt-10 grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl border border-[var(--border-color)] bg-white p-5">
-          <p className="text-2xl">⚡</p>
+          <p className="feature-mark">01</p>
           <h3 className="mt-3 font-bold">Quick to start</h3>
           <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">No account required. Choose a game and get moving.</p>
         </div>
         <div className="rounded-2xl border border-[var(--border-color)] bg-white p-5">
-          <p className="text-2xl">🎯</p>
+          <p className="feature-mark">02</p>
           <h3 className="mt-3 font-bold">Clear objectives</h3>
           <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">Every game includes focused instructions before you play.</p>
         </div>
         <div className="rounded-2xl border border-[var(--border-color)] bg-white p-5">
-          <p className="text-2xl">↻</p>
+          <p className="feature-mark">03</p>
           <h3 className="mt-3 font-bold">Fresh every session</h3>
           <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">Scores stay temporary and clear when you refresh the website.</p>
         </div>

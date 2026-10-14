@@ -74,56 +74,56 @@ function Layout() {
                       className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-white"
                       onClick={() => setGamesOpen(false)}
                     >
-                      🎯 Play Wordle
+                      Wordle
                     </Link>
                     <Link
                       to="/quiz"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      📝 Take a Quiz
+                      Quiz
                     </Link>
                     <Link
                       to="/crossword"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      ➕ Crossword
+                      Crossword
                     </Link>
                     <Link
                       to="/snake-game"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      🐍 Play Snake
+                      Snake
                     </Link>
                     <Link
                       to="/hangman"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      🪢 Play Hangman
+                      Hangman
                     </Link>
                     <Link
                       to="/scramble"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      🔄 Play Scramble
+                      Scramble
                     </Link>
                     <Link
                       to="/2048"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      🔢 Play 2048
+                      2048
                     </Link>
                     <Link
                       to="/riddles"
                       className="block w-full font-medium text-white/90 hover:text-white px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-[1.02] transition-all duration-200"
                       onClick={() => setGamesOpen(false)}
                     >
-                      💡 Play Riddles
+                      Riddles
                     </Link>
                   </div>
                 </div>
