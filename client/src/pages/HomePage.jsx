@@ -23,32 +23,37 @@ const toneClasses = {
   yellow: "bg-yellow-50 text-yellow-700 ring-yellow-100",
 };
 
+const gameLogos = {
+  "/quiz": "quiz", "/wordle": "wordle", "/crossword": "crossword", "/snake-game": "snake",
+  "/hangman": "hangman", "/scramble": "scramble", "/2048": "2048", "/riddles": "riddles",
+};
+
 export default function HomePage() {
   const username = localStorage.getItem("quiz_username");
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
-      <section className="relative overflow-hidden rounded-3xl bg-[var(--accent-deep)] px-6 py-10 text-white shadow-xl sm:px-10 lg:py-14">
+      <section className="home-hero relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 lg:py-14">
         <div className="relative z-10 max-w-2xl">
           <div className="mb-5 flex items-center gap-3">
             <img src="/think-and-play-logo.png" alt="Think and Play logo" className="h-16 w-16 rounded-2xl object-cover ring-4 ring-white/10" />
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">Think &amp; Play</p>
-              <p className="mt-1 text-sm text-slate-300">Brainpower in motion</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-green)]">Think &amp; Play</p>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">A small corner for curious minds</p>
             </div>
           </div>
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent-yellow)]">
             {username ? `Welcome back, ${username}` : "Your daily thinking space"}
           </p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Choose a challenge.</h1>
-          <p className="mt-4 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
-            A focused collection of quick games for sharper recall, faster pattern recognition, and a little well-earned fun.
+          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-dark)] sm:text-5xl">Pick a game. Make a little progress.</h1>
+          <p className="mt-4 max-w-xl text-base leading-7 text-[var(--text-muted)] sm:text-lg">
+            Eight quick games for a thoughtful break, a friendly challenge, or simply the pleasure of figuring something out.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link to="/quiz" className="rounded-lg bg-[var(--accent-yellow)] px-5 py-3 text-sm font-bold text-[var(--accent-deep)] transition hover:bg-yellow-300">
+            <Link to="/quiz" className="rounded-xl bg-[var(--accent-green)] px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:brightness-105">
               Start a quiz
             </Link>
-            <Link to="/leaderboard" className="rounded-lg border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">
+            <Link to="/leaderboard" className="rounded-xl border border-[var(--border-color)] px-5 py-3 text-sm font-bold text-[var(--text-dark)] transition hover:bg-[var(--accent-soft)]">
               View session scores
             </Link>
           </div>
@@ -58,8 +63,8 @@ export default function HomePage() {
       <section className="mt-10">
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-green)]">Game library</p>
-            <h2 className="mt-1 text-2xl font-bold tracking-tight text-[var(--text-dark)]">Pick your next challenge</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-green)]">Game shelf</p>
+            <h2 className="mt-1 text-2xl font-bold tracking-tight text-[var(--text-dark)]">What are you in the mood for?</h2>
           </div>
           <span className="hidden text-sm text-[var(--text-muted)] sm:block">{games.length} games available</span>
         </div>
@@ -68,7 +73,7 @@ export default function HomePage() {
             <Link key={game.to} to={game.to} className="game-tile group">
               <div className="flex items-start justify-between gap-4">
                 <span className={`game-icon grid h-12 w-12 place-items-center rounded-xl text-2xl font-bold tracking-tight ring-1 transition group-hover:scale-105 ${toneClasses[game.tone]}`}>
-                  {game.icon}
+                  <img src={`/games/${gameLogos[game.to]}.svg`} alt="" className="game-logo" />
                 </span>
                 <span className="text-xl text-slate-300 transition group-hover:translate-x-1 group-hover:text-[var(--accent-green)]">→</span>
               </div>
