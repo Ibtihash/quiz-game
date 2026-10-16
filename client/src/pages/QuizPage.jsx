@@ -83,8 +83,8 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="bg-white border border-[var(--border-color)] rounded-xl shadow p-6">
+    <div className="game-screen mx-auto max-w-5xl p-6">
+      <div className="game-card p-6">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">Quiz</h1>
           <button

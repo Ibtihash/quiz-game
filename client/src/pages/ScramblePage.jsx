@@ -78,7 +78,7 @@ const ScramblePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-100 to-orange-100 p-4 font-sans">
+    <div className="game-screen flex flex-col items-center justify-center p-4">
       <div className="flex items-center gap-4 mb-8">
         <h1 className="text-5xl font-extrabold text-gray-800 drop-shadow-lg">Scramble</h1>
         <button
@@ -90,7 +90,7 @@ const ScramblePage = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-2xl p-8 mb-8 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
+      <div className="game-card p-8 mb-8 w-full max-w-md">
         <div className="text-4xl font-bold tracking-widest mb-8 text-center text-blue-700">
           {scrambledWord}
         </div>

@@ -396,7 +396,7 @@ export default function WordlePage() {
           animation: shake 0.5s ease-in-out;
         }
       `}</style>
-      <div className="flex flex-col items-center justify-center p-4 max-w-md mx-auto">
+      <div className="game-screen flex flex-col items-center justify-center p-6 max-w-md mx-auto">
         <h1 className="text-3xl font-bold mb-4">Wordle</h1>
 
         {message && (

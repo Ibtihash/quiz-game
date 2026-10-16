@@ -201,7 +201,7 @@ const Game2048Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center overflow-x-hidden px-3 py-6 sm:px-4 sm:py-8">
+    <div className="game-screen flex flex-col items-center overflow-x-hidden px-3 py-6 sm:px-4 sm:py-8">
       {/* Removed <Header /> */}
       <div className="mb-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
         <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl">2048 Game</h1>

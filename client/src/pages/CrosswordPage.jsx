@@ -249,7 +249,7 @@ export default function CrosswordPage() {
   };
 
   return (
-    <div className="container-pro w-full overflow-x-hidden p-4 text-center sm:p-6">
+    <div className="game-screen mx-auto w-full max-w-4xl overflow-x-hidden p-4 text-center sm:p-6">
       <div className="mb-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
         <h1 className="text-2xl font-bold sm:text-3xl">Crossword Puzzle</h1>
         <button

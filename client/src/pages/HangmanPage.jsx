@@ -136,7 +136,7 @@ const HangmanPage = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 p-4 font-sans"
+      className="game-screen flex flex-col items-center justify-center p-4"
       tabIndex={0} // Make the div focusable
       onKeyDown={(e) => {
         const pressedKey = e.key.toLowerCase();
@@ -157,7 +157,7 @@ const HangmanPage = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-2xl p-8 mb-8 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
+      <div className="game-card p-8 mb-8 w-full max-w-md">
         <div className="relative w-48 h-64 mb-6">
           <HangmanDrawing wrongGuesses={wrongGuesses} />
         </div>

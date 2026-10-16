@@ -206,7 +206,7 @@ const SnakeGamePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="game-screen flex flex-col items-center p-6">
       <div className="flex items-center gap-4 my-4">
         <h1 className="text-3xl font-bold text-center">Snake Game</h1>
         <button

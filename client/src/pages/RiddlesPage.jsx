@@ -113,7 +113,7 @@ export default function RiddlesPage() {
   };
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center p-6">
+    <div className="game-screen mx-auto flex max-w-2xl flex-col items-center p-6">
       <div className="mb-6 flex w-full items-center justify-between gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Riddles</h1>
         <button
@@ -125,7 +125,7 @@ export default function RiddlesPage() {
         </button>
       </div>
 
-      <div className="w-full rounded-xl border border-[var(--border-color)] bg-white p-6 shadow-lg">
+      <div className="game-card w-full p-6">
         {finished ? (
           <div className="text-center">
             <div className="mb-3 text-5xl">🎉</div>
