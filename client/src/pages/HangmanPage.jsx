@@ -136,7 +136,7 @@ const HangmanPage = () => {
 
   return (
     <div
-      className="game-screen flex flex-col items-center justify-center p-4"
+      className="game-screen hangman-screen flex flex-col items-center justify-start p-3 sm:p-4"
       tabIndex={0} // Make the div focusable
       onKeyDown={(e) => {
         const pressedKey = e.key.toLowerCase();
@@ -146,7 +146,7 @@ const HangmanPage = () => {
         }
       }}
     >
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-3 sm:mb-6">
         <h1 className="text-3xl font-extrabold text-gray-800 sm:text-5xl">Hangman</h1>
         <button
           type="button"
@@ -157,7 +157,7 @@ const HangmanPage = () => {
         </button>
       </div>
 
-      <div className="game-card p-4 mb-4 w-full max-w-md sm:p-8 sm:mb-8">
+      <div className="game-card p-3 mb-3 w-full max-w-md sm:p-5 sm:mb-4">
         <div className="relative w-36 h-44 mb-4 sm:w-48 sm:h-64 sm:mb-6">
           <HangmanDrawing wrongGuesses={wrongGuesses} />
         </div>

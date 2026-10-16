@@ -54,7 +54,7 @@ function Tile({ letter, status, animation = "" }) {
 
   return (
     <div
-      className={`h-11 w-11 border-2 flex items-center justify-center text-xl font-bold uppercase transition-all duration-300 transform sm:h-14 sm:w-14 sm:text-2xl ${statusClass} ${animation}`}
+      className={`h-9 w-9 border-2 flex items-center justify-center text-lg font-bold uppercase transition-all duration-300 transform sm:h-11 sm:w-11 sm:text-xl lg:h-12 lg:w-12 ${statusClass} ${animation}`}
     >
       {letter}
     </div>
@@ -115,7 +115,7 @@ function Keyboard({ onKey, onEnter, onDelete, guessStatuses }) {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2 mt-6 w-full">
+    <div className="flex flex-col items-center gap-1.5 mt-3 w-full sm:gap-2 sm:mt-5">
       {keys.map((row, i) => (
         <div key={i} className="flex w-full justify-center gap-1 sm:gap-1.5">
           {row.map((key) => {
@@ -133,7 +133,7 @@ function Keyboard({ onKey, onEnter, onDelete, guessStatuses }) {
                 key={key}
                 onClick={() => handleClick(key)}
                 style={style}
-                className={`h-10 rounded-md text-xs font-bold uppercase flex items-center justify-center transition-all duration-200 sm:h-14 sm:text-sm ${status ? statusClass : "bg-gray-300 hover:bg-gray-400"} shadow-md`}
+                className={`h-9 rounded-md text-xs font-bold uppercase flex items-center justify-center transition-all duration-200 sm:h-10 sm:text-sm ${status ? statusClass : "bg-gray-300 hover:bg-gray-400"} shadow-md`}
               >
                 {key === "DELETE" ? "⌫" : key}
               </button>
@@ -396,8 +396,8 @@ export default function WordlePage() {
           animation: shake 0.5s ease-in-out;
         }
       `}</style>
-      <div className="game-screen flex flex-col items-center justify-center p-6 max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-4">Wordle</h1>
+      <div className="game-screen wordle-screen flex flex-col items-center justify-start p-3 max-w-md mx-auto sm:p-4">
+        <h1 className="text-2xl font-bold mb-2 sm:text-3xl sm:mb-3">Wordle</h1>
 
         {message && (
           <div className="absolute top-24 bg-white text-black px-4 py-2 rounded-md shadow-lg font-semibold z-10">
@@ -405,7 +405,7 @@ export default function WordlePage() {
           </div>
         )}
 
-        <div className="grid grid-rows-6 gap-1.5 mb-6">
+        <div className="grid grid-rows-6 gap-1 mb-3 sm:gap-1.5 sm:mb-4">
           {guesses.map((guess, i) => (
             <Row key={i} guess={guess} solution={solution} submitted={true} />
           ))}
@@ -423,7 +423,7 @@ export default function WordlePage() {
             ))}
         </div>
 
-        <div className="flex gap-4 mb-4">
+        <div className="flex gap-4 mb-2 sm:mb-3">
           {isGameOver ? (
             <button
               onClick={startNewGame}
