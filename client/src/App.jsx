@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet, Link, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import QuizPage from "./pages/QuizPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
@@ -13,6 +13,7 @@ import Game2048Page from "./pages/Game2048Page";
 import RiddlesPage from "./pages/RiddlesPage";
 
 function Layout() {
+  const location = useLocation();
   const [gamesOpen, setGamesOpen] = useState(false);
   const dropdownRef = useRef(null); // Create a ref for the dropdown
 
@@ -30,8 +31,10 @@ function Layout() {
     };
   }, [dropdownRef]); // Re-run if dropdownRef changes (though it won't in this case)
 
+  const isGameRoute = ["/quiz", "/wordle", "/crossword", "/snake-game", "/hangman", "/scramble", "/2048", "/riddles"].includes(location.pathname);
+
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]">
+    <div className={`${isGameRoute ? "h-dvh" : "min-h-screen"} flex flex-col bg-[var(--page-bg)] text-[var(--text-dark)]`}>
       <header className="app-header">
         <div className="header-container relative">
           {/* Logo Section */}
@@ -142,16 +145,16 @@ function Layout() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className={isGameRoute ? "flex-1 min-h-0 overflow-hidden" : "flex-1"}>
         <Outlet />
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
+      {!isGameRoute && <footer className="border-t border-[var(--border-color)] mt-6 py-3 text-sm">
         <div className="flex justify-center items-center text-[var(--text-muted)] container mx-auto px-4">
           <div>© 2025 Think & Play</div>
         </div>
-      </footer>
+      </footer>}
     </div>
   );
 }

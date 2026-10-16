@@ -72,6 +72,10 @@ const SnakeGamePage = () => {
   }, [gameMode, generateFruit, generateObstacles]);
 
   const handleKeyDown = useCallback((e) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     switch (e.key) {
       case 'ArrowUp':
         if (direction !== 'DOWN') setDirection('UP');
