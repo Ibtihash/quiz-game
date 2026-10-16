@@ -38,26 +38,27 @@ export default function HomePage() {
           <div className="mb-5 flex items-center gap-3">
             <img src="/think-and-play-logo.png" alt="Think and Play logo" className="h-16 w-16 rounded-2xl object-cover ring-4 ring-white/10" />
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-green)]">Think &amp; Play</p>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">A small corner for curious minds</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">Think &amp; Play</p>
+              <p className="mt-1 text-sm text-blue-100/70">Where fun meets brainpower</p>
             </div>
           </div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent-yellow)]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">
             {username ? `Welcome back, ${username}` : "Your daily thinking space"}
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-dark)] sm:text-5xl">Pick a game. Make a little progress.</h1>
-          <p className="mt-4 max-w-xl text-base leading-7 text-[var(--text-muted)] sm:text-lg">
-            Eight quick games for a thoughtful break, a friendly challenge, or simply the pleasure of figuring something out.
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Take a break.<br />Build your brain.</h1>
+          <p className="mt-4 max-w-xl text-base leading-7 text-blue-100/80 sm:text-lg">
+            Short games that make a quiet moment more interesting—whether you have two minutes or twenty.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/quiz" className="rounded-xl bg-[var(--accent-green)] px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:brightness-105">
               Start a quiz
             </Link>
-            <Link to="/leaderboard" className="rounded-xl border border-[var(--border-color)] px-5 py-3 text-sm font-bold text-[var(--text-dark)] transition hover:bg-[var(--accent-soft)]">
+            <Link to="/leaderboard" className="rounded-xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">
               View session scores
             </Link>
           </div>
         </div>
+        <img src="/think-and-play-logo.png" alt="" className="hero-logo pointer-events-none absolute right-8 top-1/2 hidden w-80 -translate-y-1/2 rounded-2xl lg:block" />
       </section>
 
       <section className="mt-10">
