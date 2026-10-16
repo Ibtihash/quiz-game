@@ -147,7 +147,7 @@ const HangmanPage = () => {
       }}
     >
       <div className="flex items-center gap-4 mb-8">
-        <h1 className="text-5xl font-extrabold text-gray-800 drop-shadow-lg">Hangman</h1>
+        <h1 className="text-3xl font-extrabold text-gray-800 sm:text-5xl">Hangman</h1>
         <button
           type="button"
           onClick={() => setShowInstructions(true)}
@@ -157,12 +157,12 @@ const HangmanPage = () => {
         </button>
       </div>
 
-      <div className="game-card p-8 mb-8 w-full max-w-md">
-        <div className="relative w-48 h-64 mb-6">
+      <div className="game-card p-4 mb-4 w-full max-w-md sm:p-8 sm:mb-8">
+        <div className="relative w-36 h-44 mb-4 sm:w-48 sm:h-64 sm:mb-6">
           <HangmanDrawing wrongGuesses={wrongGuesses} />
         </div>
 
-        <div className="text-6xl font-bold tracking-widest mb-8 text-center text-blue-700">
+        <div className="text-4xl font-bold tracking-widest mb-4 text-center text-blue-700 sm:text-6xl sm:mb-8">
           {displayWord}
         </div>
 

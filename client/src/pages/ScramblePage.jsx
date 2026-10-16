@@ -80,7 +80,7 @@ const ScramblePage = () => {
   return (
     <div className="game-screen flex flex-col items-center justify-center p-4">
       <div className="flex items-center gap-4 mb-8">
-        <h1 className="text-5xl font-extrabold text-gray-800 drop-shadow-lg">Scramble</h1>
+        <h1 className="text-3xl font-extrabold text-gray-800 sm:text-5xl">Scramble</h1>
         <button
           type="button"
           onClick={() => setShowInstructions(true)}
@@ -90,8 +90,8 @@ const ScramblePage = () => {
         </button>
       </div>
 
-      <div className="game-card p-8 mb-8 w-full max-w-md">
-        <div className="text-4xl font-bold tracking-widest mb-8 text-center text-blue-700">
+      <div className="game-card p-5 mb-4 w-full max-w-md sm:p-8 sm:mb-8">
+        <div className="text-3xl font-bold tracking-widest mb-5 text-center text-blue-700 sm:text-4xl sm:mb-8">
           {scrambledWord}
         </div>
 

@@ -94,6 +94,11 @@ const SnakeGamePage = () => {
     }
   }, [direction]);
 
+  const changeDirection = (nextDirection) => {
+    const opposite = { UP: 'DOWN', DOWN: 'UP', LEFT: 'RIGHT', RIGHT: 'LEFT' };
+    setDirection((currentDirection) => currentDirection === opposite[nextDirection] ? currentDirection : nextDirection);
+  };
+
   useEffect(() => {
     if (gameState === 'Playing') {
       window.addEventListener('keydown', handleKeyDown);
@@ -238,11 +243,19 @@ const SnakeGamePage = () => {
       )}
 
       {gameState === 'Playing' && (
-        <div className="snake-board grid max-w-[92vw] border-2 border-gray-400" style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)` }}>
-          {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) =>
-            renderCell(i % BOARD_SIZE, Math.floor(i / BOARD_SIZE))
-          )}
-        </div>
+        <>
+          <div className="snake-board grid max-w-[92vw] border-2 border-gray-400" style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)` }}>
+            {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) =>
+              renderCell(i % BOARD_SIZE, Math.floor(i / BOARD_SIZE))
+            )}
+          </div>
+          <div className="touch-dpad" aria-label="Snake controls">
+            <button onClick={() => changeDirection('UP')} aria-label="Move up">↑</button>
+            <button onClick={() => changeDirection('LEFT')} aria-label="Move left">←</button>
+            <button onClick={() => changeDirection('DOWN')} aria-label="Move down">↓</button>
+            <button onClick={() => changeDirection('RIGHT')} aria-label="Move right">→</button>
+          </div>
+        </>
       )}
 
       {gameState === 'GameOver' && (
@@ -257,7 +270,7 @@ const SnakeGamePage = () => {
           title="Snake Game"
           onClose={() => setShowInstructions(false)}
           instructions={[
-            "Choose Easy, Medium, or Hard, then guide the snake to the fruit with the arrow keys.",
+            "Choose Easy, Medium, or Hard, then guide the snake with arrow keys or the on-screen direction pad.",
             "Each normal fruit gives four points. Every fourth fruit becomes a large fruit worth ten points.",
             "In Easy mode, leaving one side of the board makes the snake reappear on the opposite side.",
             "In Medium and Hard modes, walls end the game. Hitting yourself ends every mode, and Hard mode also has obstacles.",

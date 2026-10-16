@@ -238,6 +238,13 @@ const Game2048Page = () => {
           )}
         </div>
 
+        <div className="touch-dpad touch-dpad-2048" aria-label="2048 controls">
+          <button onClick={() => move("up")} aria-label="Move up">↑</button>
+          <button onClick={() => move("left")} aria-label="Move left">←</button>
+          <button onClick={() => move("down")} aria-label="Move down">↓</button>
+          <button onClick={() => move("right")} aria-label="Move right">→</button>
+        </div>
+
         {gameWon && <div className="mt-4 text-3xl font-bold text-green-600">You Win!</div>}
         {gameOver && <div className="mt-4 text-3xl font-bold text-red-600">Game Over!</div>}
       </div>
@@ -246,7 +253,7 @@ const Game2048Page = () => {
           title="2048"
           onClose={() => setShowInstructions(false)}
           instructions={[
-            "Use the arrow keys to slide every tile in that direction.",
+            "Use arrow keys or the on-screen direction pad to slide every tile.",
             "Matching tiles merge into one tile with their values added together. A new 2 or 4 tile appears after each valid move.",
             "Your score increases by the value of each merged tile.",
             "Reach the 2048 tile to win. The game ends when the board is full and no neighboring tiles can merge.",
